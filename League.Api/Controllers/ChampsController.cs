@@ -5,6 +5,7 @@ using RiotSharp;
 using System.Collections.Generic;
 using League.Api.Models;
 using Microsoft.AspNetCore.Mvc.Routing;
+using League.Api.Repositories.Contracts;
 
 namespace League.Api.Controllers
 {
@@ -12,32 +13,11 @@ namespace League.Api.Controllers
     [Route("api")]
     public class ChampsController : ControllerBase
     {
-        RiotGamesApi riotApi;
-        RiotApi ddragon;
+        private readonly IChampRepository _champRepo;
 
-        public ChampsController()
+        public ChampsController(IChampRepository champRepo)
         {
-            riotApi = RiotGamesApi.NewInstance(Settings.Key);
-            ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
-        }
-
-        [HttpGet("masteries/{summonerName}")]
-        public ActionResult GetMasteriesChamps([FromRoute] string summonerName)
-        {
-            try
-            {
-                var summoner = riotApi.SummonerV4().GetBySummonerName(PlatformRoute.BR1, summonerName);
-                if (summoner == null)
-                    return NotFound();
-
-                var masteries = riotApi.ChampionMasteryV4().GetTopChampionMasteries(PlatformRoute.BR1, summoner.Id);
-
-                return Ok(masteries);
-            }
-            catch
-            {
-                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
-            }
+            _champRepo = champRepo;
         }
 
         [HttpGet("champ/all")]
@@ -45,38 +25,9 @@ namespace League.Api.Controllers
         {
             try
             {
-                var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
-                var lastestVersion = allVersion[0];
-                var allChamps = ddragon.StaticData.Champions.GetAllAsync(lastestVersion, RiotSharp.Misc.Language.pt_BR).Result.Champions.Values;
+                var allChamps = _champRepo.GetAllChamps();
 
-                List<Champ> champions = new List<Champ>();
-                var loadScreenImageUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/";
-                var squareImageUrl = "http://ddragon.leagueoflegends.com/cdn/12.17.1/img/champion/";
-
-                foreach (var champ in allChamps)
-                {
-                    List<string> champTags = new List<string>();
-
-                    var c = new Champ()
-                    {
-                        Id = champ.Id,
-                        Name = champ.Name,
-                        Lore = champ.Lore,
-                        Title = champ.Title,
-                        LoadScreenImage = loadScreenImageUrl + champ.Name + "_0.jpg",
-                        SquareImage = squareImageUrl + champ.Image.Full
-                    };
-
-                    foreach (var t in champ.Tags)
-                    {
-                        champTags.Add(t.ToString());
-                    }
-
-                    c.Tags = champTags;
-                    champions.Add(c);
-                }
-
-                return Ok(champions);
+                return Ok(allChamps);
             }
             catch
             {
@@ -90,35 +41,10 @@ namespace League.Api.Controllers
         {
             try
             {
-                var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
-                var lastestVersion = allVersion[0];
-                var allChamps = ddragon.StaticData.Champions.GetAllAsync(lastestVersion, RiotSharp.Misc.Language.pt_BR).Result.Champions.Values;
+                var champ = _champRepo.GetChampById(id);
 
-                var championById = allChamps.FirstOrDefault(x => x.Id == id);
-
-                if (championById == null)
+                if (champ == null)
                     return NotFound();
-
-                var loadScreenImageUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/";
-                var squareImageUrl = "http://ddragon.leagueoflegends.com/cdn/12.17.1/img/champion/";
-
-                var champTags = new List<string>();
-
-                foreach (var t in championById.Tags)
-                {
-                    champTags.Add(t.ToString());
-                }
-
-                var champ = new Champ()
-                {
-                    Id = championById.Id,
-                    Name = championById.Name,
-                    Lore = championById.Lore,
-                    Title = championById.Title,
-                    LoadScreenImage = loadScreenImageUrl + championById.Name + "_0.jpg",
-                    SquareImage = squareImageUrl + championById.Image.Full,
-                    Tags = champTags
-                };
 
                 return Ok(champ);
             }
