@@ -43,5 +43,35 @@ namespace League.Api.Controllers
                 throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
             }
         }
+
+        [HttpGet("icon/{id:int}")]
+        public ActionResult GetProfileIconById([FromRoute] int id)
+        {
+            try
+            {
+                var profileIconUrl = _summonerRepo.GetSummonerIcon(id);
+
+                return Ok(profileIconUrl);
+            }
+            catch
+            {
+                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
+            }
+        }
+        
+        [HttpGet("league/{summonerId}")]
+        public ActionResult GetLeague([FromRoute] string summonerId)
+        {
+            try
+            {
+                var league = _summonerRepo.GetLeagueSummoner(summonerId);
+
+                return Ok(league);
+            }
+            catch
+            {
+                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
+            }
+        }
     }
 }
