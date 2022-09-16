@@ -28,12 +28,34 @@ namespace League.Api.Controllers
         [HttpGet("match/latest/{puuid}/")]
         public ActionResult GetLastMatches(string puuid)
         {
-            var lastMatches = _matchRepo.GetMatchs(puuid);
+            var lastMatches = _matchRepo.GetMatches(puuid);
 
             if (lastMatches == null) 
                 return NotFound();
 
             return Ok(lastMatches);
+        }
+
+        [HttpGet("item/{id:int}")]
+        public ActionResult GetItemById(int id)
+        {
+            var item = _matchRepo.GetItem(id);
+
+            if (item == null)
+                return NotFound();
+
+            return Ok(item);
+        }
+        
+        [HttpGet("items")]
+        public ActionResult GetItemsByIds([FromQuery] int item1, int item2, int item3, int item4, int item5, int item6)
+        {
+            var items = _matchRepo.GetItems(item1, item2, item3, item4, item5, item6);
+
+            if (items == null)
+                return NotFound();
+
+            return Ok(items);
         }
     }
 }

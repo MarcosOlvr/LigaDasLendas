@@ -1,16 +1,87 @@
 ﻿using Camille.RiotGames;
 using Camille.RiotGames.MatchV5;
+using League.Api.Models;
 using League.Api.Repositories.Contracts;
+using RiotSharp;
+using RiotSharp.Endpoints.StaticDataEndpoint.Champion;
+using RiotSharp.Endpoints.StaticDataEndpoint.Item;
+using System.Net.WebSockets;
+using System.Runtime.CompilerServices;
 
 namespace League.Api.Repositories
 {
     public class MatchRepository : IMatchRepository
     {
         RiotGamesApi riotApi;
+        RiotApi ddragon;
+        string latestVersion;
 
         public MatchRepository()
         {
             riotApi = RiotGamesApi.NewInstance(Settings.Key);
+            ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
+
+            var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
+            latestVersion = allVersion[0];
+        }
+
+        public Item GetItem(int itemId)
+        {
+            var allItems = ddragon.StaticData.Items.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Items.Values;
+            var item = allItems.FirstOrDefault(x => x.Id == itemId);
+
+            var itemImageUrl = "http://ddragon.leagueoflegends.com/cdn/12.17.1/img/item/";
+
+            var i = new Item()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Image = itemImageUrl + item.Image.Full
+            };
+
+            return i;
+        }
+
+        public List<Item> GetItems(
+            int item1, int item2, 
+            int item3, int item4, 
+            int item5, int item6)
+        {
+            var allItems = ddragon.StaticData.Items.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Items.Values;
+            var fItem = allItems.FirstOrDefault(x => x.Id == item1);
+            var sItem = allItems.FirstOrDefault(x => x.Id == item2);
+            var tItem = allItems.FirstOrDefault(x => x.Id == item3);
+            var foItem = allItems.FirstOrDefault(x => x.Id == item4);
+            var fiItem = allItems.FirstOrDefault(x => x.Id == item5);
+            var sixItem = allItems.FirstOrDefault(x => x.Id == item6);
+
+            var items = new List<ItemStatic>();
+            items.Add(fItem);
+            items.Add(sItem);
+            items.Add(tItem);
+            items.Add(foItem);
+            items.Add(fiItem);
+            items.Add(sixItem);
+            
+            var itemList = new List<Item>();
+            var itemImageUrl = "http://ddragon.leagueoflegends.com/cdn/12.17.1/img/item/";
+
+            foreach (var item in items)
+            {
+                if (item == null)
+                    continue;
+
+                var i = new Item()
+                { 
+                    Id = item.Id,
+                    Name = item.Name,
+                    Image = itemImageUrl + item.Image.Full
+                };
+
+                itemList.Add(i);
+            }
+
+            return itemList;
         }
 
         public Match GetMatchById(string id)
