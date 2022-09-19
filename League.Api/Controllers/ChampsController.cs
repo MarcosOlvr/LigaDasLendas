@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using League.Api.Models;
 using Microsoft.AspNetCore.Mvc.Routing;
 using League.Api.Repositories.Contracts;
+using Microsoft.AspNetCore.Cors;
 
 namespace League.Api.Controllers
 {
@@ -27,6 +28,8 @@ namespace League.Api.Controllers
             {
                 var allChamps = _champRepo.GetAllChamps();
 
+                Response.Headers.Add("Access-Control-Allow-Origin", "*");
+
                 return Ok(allChamps);
             }
             catch
@@ -45,6 +48,26 @@ namespace League.Api.Controllers
 
                 if (champ == null)
                     return NotFound();
+
+                return Ok(champ);
+            }
+            catch
+            {
+                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
+            }
+        }
+
+        [HttpGet("champ/{champName}")]
+        public ActionResult GetChampByName(string champName)
+        {
+            try
+            {
+                var champ = _champRepo.GetChampByName(champName);
+
+                if (champ == null)
+                    return NotFound();
+
+                Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
                 return Ok(champ);
             }

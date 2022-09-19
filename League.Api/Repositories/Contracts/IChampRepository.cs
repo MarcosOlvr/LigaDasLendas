@@ -7,6 +7,7 @@ namespace League.Api.Repositories.Contracts
     {
         List<Champ> GetAllChamps();
         Champ GetChampById(int id);
+        Champ GetChampByName(string name);
         Champ CreateChamp(ChampionStatic champ);
     }
 }

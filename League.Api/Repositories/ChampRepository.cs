@@ -103,5 +103,17 @@ namespace League.Api.Repositories
 
             return champ;
         }
+
+        public Champ GetChampByName(string name)
+        {
+            var allChamps = ddragon.StaticData.Champions
+                .GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Champions.Values;
+
+            var championByName = allChamps.FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+
+            var champ = CreateChamp(championByName);
+
+            return champ;
+        }
     }
 }
