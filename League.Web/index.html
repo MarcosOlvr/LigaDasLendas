@@ -1,31 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Liga das Lendas</title>
-    <script src="https://unpkg.com/vue@next"></script>
-</head>
-<body>
-    <div id="app">
-        <div id="form">
-            <input type="text" v-model="name">
-            <button v-on:click="getChampByName">Buscar</button>
-        </div>
-        <div>
-            <ul>
-                <li v-for="champ in champions">
-                    {{ champ.name }}
-                    <img :src="champ.squareImage" alt="" srcset="">
-                </li>
-            </ul>
-        </div>
-        <div>
-            <p>{{ champion.name }}</p>
-            <img :src="champion.loadScreenImage" alt="" srcset="">
-        </div>        
-    </div>
-    <script src="./app.js"></script>
-</body>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
