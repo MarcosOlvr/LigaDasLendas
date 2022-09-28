@@ -21,6 +21,8 @@ namespace League.Api.Controllers
             {
                 var summoner = _summonerRepo.GetSummoner(summonerName);
 
+                Response.Headers.Add("Access-Control-Allow-Origin", "*");
+
                 return Ok(summoner);
             }
             catch

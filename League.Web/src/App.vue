@@ -1,5 +1,6 @@
 <script setup>
-    import SearchSummoner from './components/SearchSummoner.vue';
+import AllChamps from './components/AllChamps.vue';
+import SearchSummoner from './components/SearchSummoner.vue';
 </script>
 
 <template>
@@ -9,6 +10,7 @@
   </header>
 
   <main>
-      <SearchSummoner></SearchSummoner>
+    <SearchSummoner></SearchSummoner>
+    <AllChamps></AllChamps>
   </main>
 </template>
