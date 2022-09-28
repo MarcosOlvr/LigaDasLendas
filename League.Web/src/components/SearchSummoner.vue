@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { defineComponent, onMounted, ref } from "vue";
+    import { defineComponent } from "vue";
     import api from "../services/api";  
     
     export default defineComponent({
@@ -7,13 +7,19 @@
         setup() {
             const summoner = {};
             const summonerName = "";
+            const summonerIconId = ""; 
+            const summonerIconUrl = ""; 
 
-            return { summoner, summonerName };
+            return { summoner, summonerName, summonerIconUrl };
         },
         methods: {
-            search() {
+            getSummoner() {
                 api.get(`/summoner/${this.summonerName}`)
-                .then((response) => (this.summoner = response.data));
+                .then((response) => (this.summoner = response.data, this.summonerIconId = response.data.profileIconId));
+            },
+            getIcon() {
+                api.get(`/icon/${this.summonerIconId}`)
+                .then((response) => (this.summonerIconUrl = response.data));
             },
         },
     });
@@ -24,10 +30,10 @@
             <div>
                 <div id="form">
                     <input type="text" v-model="summonerName">
-                    <button v-on:click="search">Buscar</button>
+                    <button class="btn btn-primary" @click="getSummoner(); getIcon();">Buscar</button>
                 </div>
-                <p>{{ summoner.name }}</p>
-                <p>{{ summoner.profileIconId }}</p>
+                <p>{{ summoner }}</p>
+                <img @src="summonerIconUrl" alt="asdkasmdklmas">
             </div>
         </main>
     </template>

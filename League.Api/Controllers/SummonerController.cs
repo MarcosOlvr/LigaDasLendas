@@ -1,10 +1,12 @@
 ﻿using League.Api.Repositories.Contracts;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace League.Api.Controllers
 {
     [ApiController]
     [Route("api")]
+    [EnableCors]
     public class SummonerController : ControllerBase
     {
         private readonly ISummonerRepository _summonerRepo;
@@ -20,8 +22,6 @@ namespace League.Api.Controllers
             try
             {
                 var summoner = _summonerRepo.GetSummoner(summonerName);
-
-                Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
                 return Ok(summoner);
             }

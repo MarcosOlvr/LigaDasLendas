@@ -12,6 +12,7 @@ namespace League.Api.Controllers
 {
     [ApiController]
     [Route("api")]
+    [EnableCors]
     public class ChampsController : ControllerBase
     {
         private readonly IChampRepository _champRepo;
@@ -27,8 +28,6 @@ namespace League.Api.Controllers
             try
             {
                 var allChamps = _champRepo.GetAllChamps();
-
-                Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
                 return Ok(allChamps);
             }
@@ -66,8 +65,6 @@ namespace League.Api.Controllers
 
                 if (champ == null)
                     return NotFound();
-
-                Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
                 return Ok(champ);
             }

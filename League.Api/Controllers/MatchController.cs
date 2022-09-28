@@ -1,10 +1,12 @@
 ﻿using League.Api.Repositories.Contracts;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace League.Api.Controllers
 {
     [ApiController]
     [Route("api")]
+    [EnableCors]
     public class MatchController : ControllerBase
     {
         private readonly IMatchRepository _matchRepo;
