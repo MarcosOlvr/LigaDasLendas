@@ -22,14 +22,21 @@ namespace League.Api.Controllers
             _champRepo = champRepo;
         }
 
-        [HttpGet("champ/all")]
-        public ActionResult GetAllChamps()
+        [HttpGet("champ/{skip:int}/{take:int}")]
+        public ActionResult GetAllChamps(int skip, int take)
         {
             try
             {
                 var allChamps = _champRepo.GetAllChamps();
 
-                return Ok(allChamps);
+                var champs = allChamps.Skip(skip).Take(take);
+
+                var total = allChamps.Count();
+
+                return Ok(new {
+                    total, 
+                    data = champs
+                });
             }
             catch
             {

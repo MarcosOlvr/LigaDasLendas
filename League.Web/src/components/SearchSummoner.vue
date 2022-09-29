@@ -27,13 +27,5 @@
     
     <template>
         <main>
-            <div>
-                <div id="form">
-                    <input type="text" v-model="summonerName">
-                    <button class="btn btn-primary" @click="getSummoner(); getIcon();">Buscar</button>
-                </div>
-                <p>{{ summoner }}</p>
-                <img @src="summonerIconUrl" alt="asdkasmdklmas">
-            </div>
         </main>
     </template>

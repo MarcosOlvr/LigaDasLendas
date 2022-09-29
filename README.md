@@ -7,7 +7,7 @@
 * GET *api/league/summonerId*
 
 ## Champions
-* GET *api/champ/all*
+* GET *api/champ/{skip}/{take}*
 * GET *api/champ/champId*
 
 ## Matches
