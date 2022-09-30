@@ -3,29 +3,35 @@
     import api from "../services/api";  
     
     export default defineComponent({
-        name: "SearchSummoner",
-        setup() {
-            const summoner = {};
-            const summonerName = "";
-            const summonerIconId = ""; 
-            const summonerIconUrl = ""; 
-
-            return { summoner, summonerName, summonerIconUrl };
+        data() {
+        return {
+            summonerName: "",
+            summoner: {},
+            summonerIconUrl: "",
+        };
+    },
+    methods: {
+        search() {
+            api.get(`/summoner/${this.summonerName}`)
+            .then((response) => (this.summoner = response.data));
+            
+            api.get(`/summoner/${this.summonerName}`)
+            .then((response) => (api.get(`/icon/${response.data.profileIconId}`)
+            .then((response) => (this.summonerIconUrl = response.data))));
         },
-        methods: {
-            getSummoner() {
-                api.get(`/summoner/${this.summonerName}`)
-                .then((response) => (this.summoner = response.data, this.summonerIconId = response.data.profileIconId));
-            },
-            getIcon() {
-                api.get(`/icon/${this.summonerIconId}`)
-                .then((response) => (this.summonerIconUrl = response.data));
-            },
-        },
+    },
     });
     </script>
     
     <template>
         <main>
+            <div id="form">
+                <input type="text" v-model="summonerName">
+                <button @click="search();">Buscar</button>
+            </div>
+            <div v-if="summoner !== null">
+                <img :src="summonerIconUrl" height="100">
+                <h3>{{ summoner.name }}</h3>
+            </div>
         </main>
     </template>
