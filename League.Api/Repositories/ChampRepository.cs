@@ -84,6 +84,9 @@ namespace League.Api.Repositories
 
             List<Champ> champions = new List<Champ>();
 
+            if (champions == null)
+                throw new Exception("Os campeões não foram encontrados!");
+
             foreach (var champ in allChamps)
             {
                 var c = CreateChamp(champ);
@@ -99,6 +102,9 @@ namespace League.Api.Repositories
             var allChamps = ddragon.StaticData.Champions
                 .GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Champions.Values;
             var championById = allChamps.FirstOrDefault(x => x.Id == id);
+            
+            if (championById == null)
+                throw new Exception("Campeão não encontrado! Talvez possa ser um erro no ID =)");
 
             var champ = CreateChamp(championById);
 
@@ -111,6 +117,9 @@ namespace League.Api.Repositories
                 .GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Champions.Values;
 
             var championByName = allChamps.FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+
+            if (championByName == null)
+                throw new Exception("Campeão não encontrado! Talvez possa ser um erro de digitação =)");
 
             var champ = CreateChamp(championByName);
 

@@ -57,9 +57,9 @@ namespace League.Api.Controllers
 
                 return Ok(champ);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -75,9 +75,9 @@ namespace League.Api.Controllers
 
                 return Ok(champ);
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
+                return BadRequest(ex.Message);
             }
         }
     }

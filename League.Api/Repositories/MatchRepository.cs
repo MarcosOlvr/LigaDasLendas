@@ -30,6 +30,9 @@ namespace League.Api.Repositories
             var allItems = ddragon.StaticData.Items.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Items.Values;
             var item = allItems.FirstOrDefault(x => x.Id == itemId);
 
+            if (item == null)
+                throw new Exception("Item não encontrado!");
+
             var itemImageUrl = "http://ddragon.leagueoflegends.com/cdn/12.17.1/img/item/";
 
             var i = new Item()
@@ -62,6 +65,9 @@ namespace League.Api.Repositories
             items.Add(foItem);
             items.Add(fiItem);
             items.Add(sixItem);
+
+            if (items == null)
+                throw new Exception("Os itens não foram encontrados!");
             
             var itemList = new List<Item>();
             var itemImageUrl = "http://ddragon.leagueoflegends.com/cdn/12.17.1/img/item/";
@@ -88,12 +94,18 @@ namespace League.Api.Repositories
         {
             var match = riotApi.MatchV5().GetMatch(Camille.Enums.RegionalRoute.AMERICAS, id);
 
+            if (match == null)
+                throw new Exception("Dados da partida não encontrados! Possa ser que o Id informado não exista.");
+
             return match;
         }
 
         public string[] GetMatches(string summonerPuuid)
         {
             var lastMaches = riotApi.MatchV5().GetMatchIdsByPUUID(Camille.Enums.RegionalRoute.AMERICAS, summonerPuuid);
+
+            if (lastMaches == null)
+                throw new Exception("Histórico de partida não encontrado!");
 
             return lastMaches;
         }

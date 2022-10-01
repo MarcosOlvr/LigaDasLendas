@@ -23,9 +23,12 @@ namespace League.Api.Repositories
         {
             var summoner = riotApi.SummonerV4().GetBySummonerName(PlatformRoute.BR1, summonerName);
             if (summoner == null)
-                throw new Exception("Summoner not found!");
+                throw new Exception("Invocador não encontrado!");
 
             var masteries = riotApi.ChampionMasteryV4().GetTopChampionMasteries(PlatformRoute.BR1, summoner.Id);
+
+            if (masteries == null)
+                throw new Exception("Maestrias não foram localizadas!");
 
             return masteries;
         }
@@ -34,7 +37,7 @@ namespace League.Api.Repositories
         {
             var summoner = riotApi.SummonerV4().GetBySummonerName(PlatformRoute.BR1, summonerName);
             if (summoner == null)
-                throw new Exception("Summoner not found!");
+                throw new Exception("Invocador não encontrado!");
 
             return summoner;
         }
@@ -57,6 +60,9 @@ namespace League.Api.Repositories
         public LeagueEntry[] GetLeagueSummoner(string summonerId)
         {
             var league = riotApi.LeagueV4().GetLeagueEntriesForSummoner(PlatformRoute.BR1, summonerId);
+
+            if (league == null)
+                throw new Exception("Liga não encontrada!");
 
             return league;
         }

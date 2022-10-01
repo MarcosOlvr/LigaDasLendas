@@ -9,6 +9,7 @@
 ## Champions
 * GET *api/champ/{skip}/{take}*
 * GET *api/champ/champId*
+* GET *api/champ/champName*
 
 ## Matches
 * GET *api/match/matchId*

@@ -19,45 +19,61 @@ namespace League.Api.Controllers
         [HttpGet("match/{id}")]
         public ActionResult GetMatch(string id)
         {
-            var match = _matchRepo.GetMatchById(id);
+            try
+            {
+                var match = _matchRepo.GetMatchById(id);
 
-            if (match == null)
-                return NotFound();
-
-            return Ok(match);
+                return Ok(match);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("match/latest/{puuid}/")]
         public ActionResult GetLastMatches(string puuid)
         {
-            var lastMatches = _matchRepo.GetMatches(puuid);
+            try
+            {
+                var lastMatches = _matchRepo.GetMatches(puuid);
 
-            if (lastMatches == null) 
-                return NotFound();
-
-            return Ok(lastMatches);
+                return Ok(lastMatches);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("item/{id:int}")]
         public ActionResult GetItemById(int id)
         {
-            var item = _matchRepo.GetItem(id);
+            try
+            {
+                var item = _matchRepo.GetItem(id);
 
-            if (item == null)
-                return NotFound();
-
-            return Ok(item);
+                return Ok(item);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         
         [HttpGet("items")]
         public ActionResult GetItemsByIds([FromQuery] int item1, int item2, int item3, int item4, int item5, int item6)
         {
-            var items = _matchRepo.GetItems(item1, item2, item3, item4, item5, item6);
+            try
+            {
+                var items = _matchRepo.GetItems(item1, item2, item3, item4, item5, item6);
 
-            if (items == null)
-                return NotFound();
-
-            return Ok(items);
+                return Ok(items);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

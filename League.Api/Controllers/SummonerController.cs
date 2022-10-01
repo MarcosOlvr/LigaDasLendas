@@ -25,9 +25,9 @@ namespace League.Api.Controllers
 
                 return Ok(summoner);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -40,9 +40,9 @@ namespace League.Api.Controllers
 
                 return Ok(masteries);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -55,9 +55,9 @@ namespace League.Api.Controllers
 
                 return Ok(profileIconUrl);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
+                return BadRequest(ex.Message);
             }
         }
         
@@ -70,9 +70,9 @@ namespace League.Api.Controllers
 
                 return Ok(league);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Ocorreu algum problema com a API, tente novamente mais tarde!");
+                return BadRequest(ex.Message);
             }
         }
     }
