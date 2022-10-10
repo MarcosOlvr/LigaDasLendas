@@ -1,10 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Camille.Enums;
-using Camille.RiotGames;
-using RiotSharp;
-using System.Collections.Generic;
-using League.Api.Models;
-using Microsoft.AspNetCore.Mvc.Routing;
 using League.Api.Repositories.Contracts;
 using Microsoft.AspNetCore.Cors;
 
@@ -59,7 +53,11 @@ namespace League.Api.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new
+                {
+                    statusCode = 400,
+                    message = ex.Message
+                });
             }
         }
 
@@ -77,7 +75,11 @@ namespace League.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new
+                {
+                    statusCode = 400,
+                    message = ex.Message
+                });
             }
         }
     }

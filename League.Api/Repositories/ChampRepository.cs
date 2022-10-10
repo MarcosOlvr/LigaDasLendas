@@ -1,12 +1,6 @@
-﻿using Camille.Enums;
-using Camille.RiotGames;
-using Camille.RiotGames.ChampionMasteryV4;
-using Camille.RiotGames.ValMatchV1;
-using League.Api.Models;
+﻿using League.Api.Models;
 using League.Api.Repositories.Contracts;
-using Microsoft.AspNetCore.Mvc;
 using RiotSharp;
-using RiotSharp.Endpoints.ChampionEndpoint;
 using RiotSharp.Endpoints.StaticDataEndpoint.Champion;
 
 namespace League.Api.Repositories

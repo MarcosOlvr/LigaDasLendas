@@ -51,7 +51,7 @@ export default defineComponent({
                         </div>
                     </div>
             </div>
-            <div v-if="champByName === null" class="d-lg-flex flex-wrap d-sm-block">
+            <div v-if="champByName === null" class="d-lg-flex flex-wrap d-sm-block justify-content-center">
                 <div v-for="(champ, i) in champions" :key="i">
                     <div class="card text-center m-2" style="width: 9rem;">
                         <img class="card-img-top" :src="champ.squareImage" alt="Card image cap">

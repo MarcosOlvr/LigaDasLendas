@@ -3,10 +3,7 @@ using Camille.RiotGames.MatchV5;
 using League.Api.Models;
 using League.Api.Repositories.Contracts;
 using RiotSharp;
-using RiotSharp.Endpoints.StaticDataEndpoint.Champion;
 using RiotSharp.Endpoints.StaticDataEndpoint.Item;
-using System.Net.WebSockets;
-using System.Runtime.CompilerServices;
 
 namespace League.Api.Repositories
 {
