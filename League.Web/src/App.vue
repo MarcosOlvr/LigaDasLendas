@@ -1,21 +1,18 @@
 <script setup>
-import AllChamps from './components/AllChamps.vue';
-import SearchSummoner from './components/SearchSummoner.vue';
 </script>
 
 <template>
   <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark m-2">
         <div class="container">
-          <a class="navbar-brand" href="#">Liga das Lendas</a>
+          <router-link to="/" class="navbar-brand">Liga das Lendas</router-link>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-item nav-link active" href="#">Inicio <span class="sr-only">(current)</span></a>
-              <a class="nav-item nav-link" href="#">Campeões</a>
-              <a class="nav-item nav-link" href="#">Sla krl</a>
+              <router-link to="/" class="nav-item nav-link">Inicio</router-link>
+              <router-link to="/champions" class="nav-item nav-link">Campeões</router-link>
             </div>
           </div>
         </div>
@@ -23,6 +20,6 @@ import SearchSummoner from './components/SearchSummoner.vue';
   </header>
 
   <main class="container-fluid">
-    <SearchSummoner></SearchSummoner>
+    <router-view></router-view>
   </main>
 </template>
