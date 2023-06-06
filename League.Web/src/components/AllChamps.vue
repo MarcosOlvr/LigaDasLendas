@@ -47,7 +47,7 @@ export default defineComponent({
                         <div class="card-body">
                             <h5 class="card-title">{{ champByName.name }}</h5>
                             <div class="d-inline-block p-1" v-for="c in champByName.tags">
-                                <span v-if="c == 'Mage'" class="badge bg-info">{{ c }}</span>
+                                <span v-if="c == 'Mage'" class="badge bg-info text-black">{{ c }}</span>
                                 <span v-if="c == 'Assassin'" class="badge bg-danger">{{ c }}</span>
                                 <span v-if="c == 'Support'" class="badge bg-warning">{{ c }}</span>
                                 <span v-if="c == 'Tank'" class="badge bg-success">{{ c }}</span>
@@ -65,7 +65,7 @@ export default defineComponent({
                         <div class="card-body">
                             <h5 class="card-title">{{ champ.name }}</h5>
                             <div class="d-inline-block p-1" v-for="c in champ.tags">
-                                <span v-if="c == 'Mage'" class="badge bg-info">{{ c }}</span>
+                                <span v-if="c == 'Mage'" class="badge bg-info text-black">{{ c }}</span>
                                 <span v-if="c == 'Assassin'" class="badge bg-danger">{{ c }}</span>
                                 <span v-if="c == 'Support'" class="badge bg-warning">{{ c }}</span>
                                 <span v-if="c == 'Tank'" class="badge bg-success">{{ c }}</span>

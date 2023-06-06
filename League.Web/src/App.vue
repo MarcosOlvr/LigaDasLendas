@@ -18,6 +18,7 @@
         </div>
       </nav>
   </header>
+<hr>
 
   <main class="container-fluid">
     <router-view></router-view>

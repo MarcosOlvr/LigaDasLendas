@@ -27,11 +27,16 @@
         <main class="container">
             <div>
                 <div v-if="summoner !== null">
-                    <div class="d-flex">
-                        <img :src="summonerIconUrl" height="100" class="m-3">
-                        <h3 class="mt-5">{{ summoner.name }}</h3>
-                        <span class="mt-">{{ summoner.summonerLevel }}</span>
+                    <div class="d-inline-block">
+                        <img class="m-3 rounded" :src="summonerIconUrl" height="100">
+                        <div class="d-flex">
+                            <h3>{{ summoner.name }}</h3>
+                            <span class="mx-3 mt-2">
+                                Nível <span class="text-warning">{{ summoner.summonerLevel }}</span>
+                            </span>
+                        </div>
                     </div>
+                    <hr>
                 </div>
             </div>
             <div v-if="summoner === null">
