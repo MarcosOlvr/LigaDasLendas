@@ -8,6 +8,8 @@
             summonerName: "",
             summoner: null,
             summonerIconUrl: "",
+            masteries: [],
+            championsMasteries: [],
         };
     },
     methods: {
@@ -18,6 +20,9 @@
             api.get(`/summoner/${this.summonerName}`)
             .then((response) => (api.get(`/icon/${response.data.profileIconId}`)
             .then((response) => (this.summonerIconUrl = response.data))));
+
+            api.get(`/masteries/${this.summonerName}`)
+            .then((response) => (this.masteries = response.data));
         },
     },
     });
@@ -27,13 +32,23 @@
         <main class="container">
             <div>
                 <div v-if="summoner !== null">
-                    <div class="d-inline-block">
-                        <img class="m-3 rounded" :src="summonerIconUrl" height="100">
-                        <div class="d-flex">
-                            <h3>{{ summoner.name }}</h3>
-                            <span class="mx-3 mt-2">
-                                Nível <span class="text-warning">{{ summoner.summonerLevel }}</span>
-                            </span>
+                    <div class="row">
+                        <div class="d-inline-block col-4">
+                            <img class="m-3 rounded" :src="summonerIconUrl" height="100">
+                            <div class="d-flex">
+                                <h3>{{ summoner.name }}</h3>
+                                <span class="mx-3 mt-2">
+                                    Nível <span class="text-warning">{{ summoner.summonerLevel }}</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div v-for="m in masteries">
+                                <div v-for="champ in championsMasteries">
+                                    <h1 v-if="m.championId === champ.id">{{ champ.name }}</h1>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                     <hr>

@@ -8,10 +8,18 @@ const routes = [
   {
     path: '/champions',
     component: () => import("../components/AllChamps.vue"),
-  }
+  },
+  {
+    path: '/champion/:champName',
+    name: 'champion',
+    component: () => import("../components/Champion.vue"),
+    params: true
+  },
 ]
+
 const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
 export default router

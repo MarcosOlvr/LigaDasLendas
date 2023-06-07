@@ -3,6 +3,7 @@ using Camille.RiotGames;
 using Camille.RiotGames.ChampionMasteryV4;
 using Camille.RiotGames.LeagueV4;
 using Camille.RiotGames.SummonerV4;
+using League.Api.Models;
 using League.Api.Repositories.Contracts;
 using RiotSharp;
 
@@ -12,14 +13,16 @@ namespace League.Api.Repositories
     {
         RiotGamesApi riotApi;
         RiotApi ddragon;
+        IChampRepository _champRepository;
 
-        public SummonerRepository()
+        public SummonerRepository(IChampRepository champRepository)
         {
             riotApi = RiotGamesApi.NewInstance(Settings.Key);
             ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
+            _champRepository = champRepository;
         }
 
-        public ChampionMastery[] GetChampMastery(string summonerName)
+        public List<Masteries> GetChampMastery(string summonerName)
         {
             var summoner = riotApi.SummonerV4().GetBySummonerName(PlatformRoute.BR1, summonerName);
             if (summoner == null)
@@ -30,7 +33,19 @@ namespace League.Api.Repositories
             if (masteries == null)
                 throw new Exception("Maestrias não foram localizadas!");
 
-            return masteries;
+            var list = new List<Masteries>();
+
+            foreach (var obj in masteries)
+            {
+                var m = new Masteries();
+                m.ChampionLevel = obj.ChampionLevel;
+                m.ChampionPoints = obj.ChampionPoints;
+                m.Champion = _champRepository.GetChampById(int.Parse(obj.ChampionId.ToString()));
+
+                list.Add(m);
+            }
+
+            return list;
         }
 
         public Summoner GetSummoner(string summonerName)
