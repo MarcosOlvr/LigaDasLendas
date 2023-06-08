@@ -35,12 +35,12 @@ namespace League.Api.Repositories
 
             var list = new List<Masteries>();
 
-            foreach (var obj in masteries)
+            foreach (var item in masteries)
             {
                 var m = new Masteries();
-                m.ChampionLevel = obj.ChampionLevel;
-                m.ChampionPoints = obj.ChampionPoints;
-                m.Champion = _champRepository.GetChampById(int.Parse(obj.ChampionId.ToString()));
+                m.ChampionLevel = item.ChampionLevel;
+                m.ChampionPoints = item.ChampionPoints;
+                m.Champion = _champRepository.GetChampById(((int)item.ChampionId));
 
                 list.Add(m);
             }
