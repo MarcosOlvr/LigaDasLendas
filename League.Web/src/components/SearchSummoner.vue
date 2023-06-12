@@ -10,6 +10,7 @@
             summonerIconUrl: "",
             masteries: [],
             league: [],
+            latestMatchs: [],
         };
     },
     methods: {
@@ -27,6 +28,14 @@
             api.get(`summoner/${this.summonerName}`)
             .then((response) => (api.get(`/league/${response.data.id}`)
             .then((response) => (this.league = response.data[0]))));
+
+            api.get(`summoner/${this.summonerName}`)
+            .then((response) => (api.get(`/match/latest/${response.data.puuid}`)
+            .then((response) => (response.data.forEach(element => {
+                api.get(`match/${element}`)
+                .then((response => (this.latestMatchs.push(response.data.info)))
+                )})
+            ))));
         },
     },
     });
@@ -76,6 +85,39 @@
                         </div>
                     </div>
                     <hr>
+                    <div v-if="latestMatchs !== null">
+                        <div v-for="(match, i) in latestMatchs" :key="i">
+                            <div v-for="player in match.participants">
+                                <div class="row border border-secondary p-2 m-2" v-if="player.summonerName === summonerName">
+                                    <div class="col-2 text-center">
+                                        <p class="mt-5 ms-3" v-if="match.gameMode === 'CLASSIC'">Partida ranqueada</p>
+                                        <p class="mt-5 ms-3" v-else>{{ match.gameMode }}</p>
+                                        <span class="text-info ms-3" v-if="player.win">VITÓRIA</span>
+                                        <span class="text-danger ms-3" v-else>DERROTA</span>
+                                    </div>
+                                    <div class="col text-center">
+                                        <h3>{{ player.championName }}</h3>
+                                        <span>{{ player.kills }} / {{ player.deaths }} / {{ player.assists }}</span>
+                                        <p class="badge badge-warning">KDA {{ player.challenges.kda.toFixed(2) }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <div v-for="(playerInMatch, i) in match.participants" :key="i">
+                                            <div class="d-flex" v-if="i <= 4">
+                                                <span class="badge text-white-50">{{ playerInMatch.championName }}</span>
+                                                <span class="badge" v-if="playerInMatch.summonerName === summonerName">{{ playerInMatch.summonerName }}</span>
+                                                <span class="badge text-white-50" v-else>{{ playerInMatch.summonerName }}</span>
+                                            </div>
+                                            <div class="d-flex" v-if="i >= 5">
+                                                <span class="badge text-white-50">{{ playerInMatch.championName }}</span>
+                                                <span class="badge" v-if="playerInMatch.summonerName === summonerName">{{ playerInMatch.summonerName }}</span>
+                                                <span class="badge text-white-50" v-else>{{ playerInMatch.summonerName }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div v-if="summoner === null">
