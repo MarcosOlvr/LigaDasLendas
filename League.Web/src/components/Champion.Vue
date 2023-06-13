@@ -19,7 +19,7 @@
     <div class="container">
         <div v-if="champion != null" class="row">
             <div class="col-4 text-center">
-                <img height="400" :src="champion.loadScreenImage">
+                <img class="img-fluid" height="400" :src="champion.loadScreenImage">
             </div>
             <div class="col-6">
                 <h1 class="text-warning">{{ champion.name }}</h1>
@@ -37,13 +37,23 @@
             </div>
             <hr class="mt-3">
             <div class="row mb-3">
-                <div class="mt-3 col-4" v-for="(skill, i) in champion.skills" :key="i">
+                <div class="mt-3 col-sm" v-for="(skill, i) in champion.skills" :key="i">
                     <div class="text-center border-start border-bottom border-white p-2" style="width: 20rem;">
-                        <img height="75" :src="skill.image" alt="image of skill">
+                        <img class="img-fluid" height="75" :src="skill.image" alt="image of skill">
                         <div class="mt-2">
                             <h5 class="text-warning">{{ skill.name }}</h5>
                             <p>{{ skill.description }}</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="mt-3 col-4" v-for="(skin, i) in champion.skins" :key="i">
+                    <div class="text-center border-white p-2">
+                        <img class="img-fluid" :src="skin.skinImage">
+                        <h5 class="text-warning p-2" v-if="skin.name === 'default'">Padrão</h5>
+                        <h5 class="text-warning p-2 mt-2" v-else>{{ skin.name }}</h5>
                     </div>
                 </div>
             </div>

@@ -13,23 +13,27 @@ namespace League.Api.Repositories
         string skillImageUrl;
         string passiveImageUrl;
         string latestVersion;
+        string skinImageUrl;
 
         public ChampRepository()
         {
             ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
-            loadScreenImageUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/";
-            squareImageUrl = "http://ddragon.leagueoflegends.com/cdn/12.17.1/img/champion/";
-            skillImageUrl = "http://ddragon.leagueoflegends.com/cdn/12.17.1/img/spell/";
-            passiveImageUrl = "http://ddragon.leagueoflegends.com/cdn/12.17.1/img/passive/";
 
             var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
             latestVersion = allVersion[0];
+
+            loadScreenImageUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/";
+            squareImageUrl = $"http://ddragon.leagueoflegends.com/cdn/{latestVersion}/img/champion/";
+            skillImageUrl = $"http://ddragon.leagueoflegends.com/cdn/{latestVersion}/img/spell/";
+            passiveImageUrl = $"http://ddragon.leagueoflegends.com/cdn/{latestVersion}/img/passive/";
+            skinImageUrl = $"http://ddragon.leagueoflegends.com/cdn/img/champion/splash/";
         }
 
         public Champ CreateChamp(ChampionStatic champ)
         {
             List<string> champTags = new List<string>();
             List<ChampSkills> skills = new List<ChampSkills>();
+            List<Skin> skins = new List<Skin>();
 
             foreach (var t in champ.Tags)
             {
@@ -56,6 +60,17 @@ namespace League.Api.Repositories
                 skills.Add(skill);
             }
 
+            foreach (var skin in champ.Skins)
+            {
+                var newSkin = new Skin()
+                {
+                    Name = skin.Name,
+                    SkinImage = skinImageUrl + $"{champ.Name}_{skin.Num}.jpg"
+                };
+
+                skins.Add(newSkin);
+            }
+
             var c = new Champ()
             {
                 Id = champ.Id,
@@ -65,7 +80,8 @@ namespace League.Api.Repositories
                 LoadScreenImage = loadScreenImageUrl + champ.Name + "_0.jpg",
                 SquareImage = squareImageUrl + champ.Image.Full,
                 Tags = champTags,
-                Skills = skills
+                Skills = skills,
+                Skins = skins
             };
 
             return c;

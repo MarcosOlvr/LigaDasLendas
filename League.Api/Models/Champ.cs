@@ -10,5 +10,6 @@
         public string SquareImage { get; set; }
         public List<string> Tags { get; set; } 
         public List<ChampSkills> Skills { get; set; }
+        public List<Skin> Skins { get; set; }
     }
 }
