@@ -35,6 +35,8 @@ namespace League.Api.Repositories
             List<ChampSkills> skills = new List<ChampSkills>();
             List<Skin> skins = new List<Skin>();
 
+            var champNameSplash = champ.Image.Full.Replace(".png", String.Empty);
+
             foreach (var t in champ.Tags)
             {
                 champTags.Add(t.ToString());
@@ -65,7 +67,7 @@ namespace League.Api.Repositories
                 var newSkin = new Skin()
                 {
                     Name = skin.Name,
-                    SkinImage = skinImageUrl + $"{champ.Name}_{skin.Num}.jpg"
+                    SkinImage = skinImageUrl + $"{champNameSplash}_{skin.Num}.jpg"
                 };
 
                 skins.Add(newSkin);
@@ -77,7 +79,7 @@ namespace League.Api.Repositories
                 Name = champ.Name,
                 Lore = champ.Lore,
                 Title = champ.Title,
-                LoadScreenImage = loadScreenImageUrl + champ.Name + "_0.jpg",
+                LoadScreenImage = loadScreenImageUrl + champNameSplash + "_0.jpg",
                 SquareImage = squareImageUrl + champ.Image.Full,
                 Tags = champTags,
                 Skills = skills,

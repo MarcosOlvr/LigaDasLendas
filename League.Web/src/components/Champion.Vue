@@ -18,13 +18,13 @@
 <template>
     <div class="container">
         <div v-if="champion != null" class="row">
-            <div class="col-4 text-center">
-                <img class="img-fluid" height="400" :src="champion.loadScreenImage">
+            <div class="col-6 text-center">
+                <img class="img-fluid shadow rounded" height="400" :src="champion.loadScreenImage">
             </div>
             <div class="col-6">
                 <h1 class="text-warning">{{ champion.name }}</h1>
                 <h6 class="text-info">{{ champion.title }}</h6>
-                <br>
+                <hr>
                 <p>{{ champion.lore }}</p>
                 <div class="d-inline-block p-2" v-for="c in champion.tags">
                     <span v-if="c == 'Mage'" class="badge bg-info text-black p-2">{{ c }}</span>
@@ -39,7 +39,7 @@
             <div class="row mb-3">
                 <div class="mt-3 col-sm" v-for="(skill, i) in champion.skills" :key="i">
                     <div class="text-center border-start border-bottom border-white p-2" style="width: 20rem;">
-                        <img class="img-fluid" height="75" :src="skill.image" alt="image of skill">
+                        <img class="img-fluid shadow rounded" height="80" :src="skill.image" alt="image of skill">
                         <div class="mt-2">
                             <h5 class="text-warning">{{ skill.name }}</h5>
                             <p>{{ skill.description }}</p>
@@ -50,8 +50,8 @@
             <hr>
             <div class="row mb-3">
                 <div class="mt-3 col-4" v-for="(skin, i) in champion.skins" :key="i">
-                    <div class="text-center border-white p-2">
-                        <img class="img-fluid" :src="skin.skinImage">
+                    <div class="text-center border-bottom border-end border-white p-2">
+                        <img class="img-fluid shadow rounded" :src="skin.skinImage">
                         <h5 class="text-warning p-2" v-if="skin.name === 'default'">Padrão</h5>
                         <h5 class="text-warning p-2 mt-2" v-else>{{ skin.name }}</h5>
                     </div>
