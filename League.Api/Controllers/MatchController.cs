@@ -29,7 +29,7 @@ namespace League.Api.Controllers
             {
                 return BadRequest(new
                 {
-                    statusCode = 400,
+                    statusCode = 500,
                     message = ex.Message
                 });
             }
@@ -48,7 +48,7 @@ namespace League.Api.Controllers
             {
                 return BadRequest(new
                 {
-                    statusCode = 400,
+                    statusCode = 500,
                     message = ex.Message
                 });
             }
@@ -67,7 +67,7 @@ namespace League.Api.Controllers
             {
                 return BadRequest(new
                 {
-                    statusCode = 400,
+                    statusCode = 500,
                     message = ex.Message
                 });
             }
@@ -86,9 +86,29 @@ namespace League.Api.Controllers
             {
                 return BadRequest(new
                 {
-                    statusCode = 400,
+                    statusCode = 500,
                     message = ex.Message
                 });
+            }
+        }
+
+        [HttpGet("runes")]
+        public ActionResult GetAllRunes()
+        {
+            try
+            {
+                var runes = _matchRepo.GetAllRunes();
+
+                return Ok(runes);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new 
+                {
+                    statusCode = 500, 
+                    message = ex.Message
+                });
+
             }
         }
     }

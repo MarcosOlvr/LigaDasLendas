@@ -1,5 +1,4 @@
-﻿using Camille.RiotGames.SummonerV4;
-using League.Api.Models;
+﻿using League.Api.Models;
 
 namespace League.Api.Repositories.Contracts
 {
@@ -12,5 +11,7 @@ namespace League.Api.Repositories.Contracts
             int item1, int item2, 
             int item3, int item4,
             int item5, int item6);
+
+        List<Rune> GetAllRunes();
     }
 }
