@@ -91,25 +91,5 @@ namespace League.Api.Controllers
                 });
             }
         }
-
-        [HttpGet("runes")]
-        public ActionResult GetAllRunes()
-        {
-            try
-            {
-                var runes = _matchRepo.GetAllRunes();
-
-                return Ok(runes);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(new 
-                {
-                    statusCode = 500, 
-                    message = ex.Message
-                });
-
-            }
-        }
     }
 }

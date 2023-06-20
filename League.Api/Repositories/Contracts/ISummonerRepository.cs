@@ -1,4 +1,5 @@
 ﻿using League.Api.Models;
+using RiotSharp.Endpoints.StaticDataEndpoint.SummonerSpell;
 
 namespace League.Api.Repositories.Contracts
 {
@@ -8,5 +9,7 @@ namespace League.Api.Repositories.Contracts
         Camille.RiotGames.SummonerV4.Summoner GetSummoner(string summonerName);
         Camille.RiotGames.LeagueV4.LeagueEntry[] GetLeagueSummoner(string summonerName);
         string GetSummonerIcon(int id);
+        List<Rune> GetAllRunes();
+        List<SummonerSpellStatic> GetAllSpells();
     }
 }

@@ -13,53 +13,14 @@ namespace League.Api.Repositories
         RiotGamesApi riotApi;
         RiotApi ddragon;
         string latestVersion;
-        string runeImagePath;
 
         public MatchRepository()
         {
             riotApi = RiotGamesApi.NewInstance(Settings.Key);
             ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
-            runeImagePath = "https://ddragon.canisback.com/img/";
 
             var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
             latestVersion = allVersion[0];
-        }
-
-        public List<Rune> GetAllRunes()
-        {
-            var runes = ddragon.StaticData.ReforgedRunes.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result;
-            var allRunes = new List<Rune>();
-
-            if (runes == null)
-                throw new Exception("Runas não encontradas!");
-
-            foreach (var rune in runes)
-            {
-                var r = new Rune();
-                List<ReforgedRunes> slots = new List<ReforgedRunes>();
-
-                foreach (var slot in rune.Slots)
-                {
-                    foreach (var s in slot.Runes)
-                    {
-                        var reforgedRune = new ReforgedRunes();
-
-                        reforgedRune.Name = s.Name;
-                        reforgedRune.Icon = runeImagePath + s.Icon;
-                        reforgedRune.Description = s.ShortDescription;
-
-                        slots.Add(reforgedRune);
-                    }
-                }
-
-                r.Name = rune.Name;
-                r.Icon = runeImagePath + rune.Icon;
-                r.Slots = slots;
-
-                allRunes.Add(r);
-            }
-
-            return allRunes;
         }
 
         public Item GetItem(int itemId)

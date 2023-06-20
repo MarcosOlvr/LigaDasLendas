@@ -91,5 +91,44 @@ namespace League.Api.Controllers
                 });
             }
         }
+
+        [HttpGet("runes")]
+        public ActionResult GetRunes()
+        {
+            try
+            {
+                var runes = _summonerRepo.GetAllRunes();
+
+                return Ok(runes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    statusCode = 500,
+                    message = ex.Message
+                });
+
+            }
+        }
+
+        [HttpGet("Spells")]
+        public ActionResult GetSpells() 
+        {
+            try
+            {
+                var spells = _summonerRepo.GetAllSpells();
+
+                return Ok(spells);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    statusCode = 500,
+                    message = ex.Message
+                });
+            }
+        }
     }
 }

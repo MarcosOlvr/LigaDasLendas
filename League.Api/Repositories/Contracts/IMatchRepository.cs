@@ -11,7 +11,5 @@ namespace League.Api.Repositories.Contracts
             int item1, int item2, 
             int item3, int item4,
             int item5, int item6);
-
-        List<Rune> GetAllRunes();
     }
 }

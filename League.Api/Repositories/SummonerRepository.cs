@@ -6,6 +6,7 @@ using Camille.RiotGames.SummonerV4;
 using League.Api.Models;
 using League.Api.Repositories.Contracts;
 using RiotSharp;
+using RiotSharp.Endpoints.StaticDataEndpoint.SummonerSpell;
 
 namespace League.Api.Repositories
 {
@@ -14,12 +15,56 @@ namespace League.Api.Repositories
         RiotGamesApi riotApi;
         RiotApi ddragon;
         IChampRepository _champRepository;
+        string latestVersion;
+        string runeImagePath;
 
         public SummonerRepository(IChampRepository champRepository)
         {
             riotApi = RiotGamesApi.NewInstance(Settings.Key);
             ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
             _champRepository = champRepository;
+
+            runeImagePath = "https://ddragon.canisback.com/img/";
+
+            var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
+            latestVersion = allVersion[0];
+        }
+
+        public List<Rune> GetAllRunes()
+        {
+            var runes = ddragon.StaticData.ReforgedRunes.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result;
+            var allRunes = new List<Rune>();
+
+            if (runes == null)
+                throw new Exception("Runas não encontradas!");
+
+            foreach (var rune in runes)
+            {
+                var r = new Rune();
+                List<ReforgedRunes> slots = new List<ReforgedRunes>();
+
+                foreach (var slot in rune.Slots)
+                {
+                    foreach (var s in slot.Runes)
+                    {
+                        var reforgedRune = new ReforgedRunes();
+
+                        reforgedRune.Name = s.Name;
+                        reforgedRune.Icon = runeImagePath + s.Icon;
+                        reforgedRune.Description = s.ShortDescription;
+
+                        slots.Add(reforgedRune);
+                    }
+                }
+
+                r.Name = rune.Name;
+                r.Icon = runeImagePath + rune.Icon;
+                r.Slots = slots;
+
+                allRunes.Add(r);
+            }
+
+            return allRunes;
         }
 
         public List<Masteries> GetChampMastery(string summonerName)
@@ -80,6 +125,13 @@ namespace League.Api.Repositories
                 throw new Exception("Liga não encontrada!");
 
             return league;
+        }
+
+        public List<SummonerSpellStatic> GetAllSpells()
+        {
+            var allSpells = ddragon.StaticData.SummonerSpells.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.SummonerSpells.Values.ToList();
+
+            return allSpells;
         }
     }
 }
