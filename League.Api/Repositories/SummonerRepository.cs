@@ -1,12 +1,10 @@
 ﻿using Camille.Enums;
 using Camille.RiotGames;
-using Camille.RiotGames.ChampionMasteryV4;
 using Camille.RiotGames.LeagueV4;
 using Camille.RiotGames.SummonerV4;
 using League.Api.Models;
 using League.Api.Repositories.Contracts;
 using RiotSharp;
-using RiotSharp.Endpoints.StaticDataEndpoint.SummonerSpell;
 
 namespace League.Api.Repositories
 {
@@ -17,6 +15,7 @@ namespace League.Api.Repositories
         IChampRepository _champRepository;
         string latestVersion;
         string runeImagePath;
+        string spellImagePath;
 
         public SummonerRepository(IChampRepository champRepository)
         {
@@ -24,10 +23,11 @@ namespace League.Api.Repositories
             ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
             _champRepository = champRepository;
 
-            runeImagePath = "https://ddragon.canisback.com/img/";
-
             var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
             latestVersion = allVersion[0];
+
+            runeImagePath = "https://ddragon.canisback.com/img/";
+            spellImagePath = $"http://ddragon.leagueoflegends.com/cdn/{latestVersion}/img/spell/";
         }
 
         public List<Rune> GetAllRunes()
@@ -127,11 +127,25 @@ namespace League.Api.Repositories
             return league;
         }
 
-        public List<SummonerSpellStatic> GetAllSpells()
+        public List<Spell> GetAllSpells()
         {
             var allSpells = ddragon.StaticData.SummonerSpells.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.SummonerSpells.Values.ToList();
+            var spellsList = new List<Spell>();
 
-            return allSpells;
+            foreach (var spell in allSpells)
+            {
+                var newSpell = new Spell();
+
+                newSpell.Name = spell.Name;
+                newSpell.Description = spell.Description;
+                newSpell.Image = spellImagePath + spell.Image.Full;
+                newSpell.Cooldown = spell.CooldownBurn;
+
+                spellsList.Add(newSpell);
+            }
+
+
+            return spellsList;
         }
     }
 }
