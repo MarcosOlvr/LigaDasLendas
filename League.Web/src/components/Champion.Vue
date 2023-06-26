@@ -37,7 +37,7 @@
             </div>
             <hr class="mt-3">
             <div class="row mb-3">
-                <div class="mt-3 col-sm border-start border-white" v-for="(skill, i) in champion.skills" :key="i">
+                <div class="mt-3 col-sm border-start border-secondary" v-for="(skill, i) in champion.skills" :key="i">
                     <div class="text-center p-2" style="width: 20rem;">
                         <img class="img-fluid shadow rounded" height="80" :src="skill.image" alt="image of skill">
                         <div class="mt-2">
@@ -50,7 +50,7 @@
             <hr>
             <div class="row mb-3">
                 <div class="mt-3 col-4" v-for="(skin, i) in champion.skins" :key="i">
-                    <div class="text-center border-bottom border-end border-white p-2">
+                    <div class="text-center border-bottom border-end border-secondary p-2">
                         <img class="img-fluid shadow rounded" :src="skin.skinImage">
                         <h5 class="text-warning p-2" v-if="skin.name === 'default'">Padrão</h5>
                         <h5 class="text-warning p-2 mt-2" v-else>{{ skin.name }}</h5>

@@ -115,6 +115,7 @@
                     <input type="text" v-model="summonerName" class="form-control text-white bg-dark border-1 border-secondary shadow" placeholder="Nome de Invocador"/>
                     <button class="input-group-text btn btn-primary rounded-left border-1" @click="search()"><i class="bi bi-search"></i></button>
                 </div>
+                <span class="text-muted text-center">Região: Apenas Brasil</span>
             </div> 
         </main>
     </template>

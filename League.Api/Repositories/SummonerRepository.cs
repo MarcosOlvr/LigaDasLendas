@@ -26,7 +26,7 @@ namespace League.Api.Repositories
             var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
             latestVersion = allVersion[0];
 
-            runeImagePath = "https://ddragon.canisback.com/img/";
+            runeImagePath = "https://raw.githubusercontent.com/InFinity54/LoL_DDragon/master/img/";
             spellImagePath = $"http://ddragon.leagueoflegends.com/cdn/{latestVersion}/img/spell/";
         }
 
