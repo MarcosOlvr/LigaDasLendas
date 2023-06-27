@@ -5,12 +5,12 @@
   <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark m-2">
         <div class="container">
-          <img class="img-fluid shadow rounded me-2" src="./services/imagens/map1.png" width="50">
+          <img class="img-fluid mx-2 shadow rounded navbar-brand" src="./services/imagens/bg/map1.png" width="40">
           <a href="/" class="navbar-brand text-warning">Liga das Lendas</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <div class="navbar-nav">
               <a href="/" class="nav-item nav-link text-info">Início</a>
               <a href="/champions" class="nav-item nav-link  text-info">Campeões</a>

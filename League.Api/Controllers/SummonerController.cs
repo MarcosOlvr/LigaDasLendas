@@ -112,7 +112,27 @@ namespace League.Api.Controllers
             }
         }
 
-        [HttpGet("Spells")]
+        [HttpGet("runes/{runeName}")]
+        public ActionResult GetRuneByName([FromRoute]string runeName)
+        {
+            try
+            {
+                var rune = _summonerRepo.GetRuneByName(runeName);
+
+                return Ok(rune);    
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new
+                {
+                    statusCode = 500,
+                    message = ex.Message
+                });
+
+            }
+        }
+
+        [HttpGet("spells")]
         public ActionResult GetSpells() 
         {
             try

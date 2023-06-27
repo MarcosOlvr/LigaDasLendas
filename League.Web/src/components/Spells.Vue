@@ -22,7 +22,7 @@
             <div class="col-sm" v-for="(spell, i) in spells" :key="i">
                 <div class="card bg-dark text-center p-2 m-2 border-bottom border-secondary" style="width: 15rem; height: 30rem;">
                     <div>
-                        <img class="img-fluid shadow rounded" :src="spell.image" height="75" width="75">    
+                        <img class="img-fluid rounded" :src="spell.image" height="75" width="75">    
                     </div>
                     <div class="card-body">
                         <h5 class="card-title text-warning">{{ spell.name }}</h5>

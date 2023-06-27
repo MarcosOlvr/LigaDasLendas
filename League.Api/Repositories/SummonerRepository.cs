@@ -41,30 +41,46 @@ namespace League.Api.Repositories
             foreach (var rune in runes)
             {
                 var r = new Rune();
-                List<ReforgedRunes> slots = new List<ReforgedRunes>();
-
-                foreach (var slot in rune.Slots)
-                {
-                    foreach (var s in slot.Runes)
-                    {
-                        var reforgedRune = new ReforgedRunes();
-
-                        reforgedRune.Name = s.Name;
-                        reforgedRune.Icon = runeImagePath + s.Icon;
-                        reforgedRune.Description = s.ShortDescription;
-
-                        slots.Add(reforgedRune);
-                    }
-                }
-
                 r.Name = rune.Name;
                 r.Icon = runeImagePath + rune.Icon;
-                r.Slots = slots;
 
                 allRunes.Add(r);
             }
 
             return allRunes;
+        }
+
+        public Rune GetRuneByName(string name)
+        {
+            var runes = ddragon.StaticData.ReforgedRunes.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result;
+
+            if (runes == null)
+                throw new Exception("Runas não encontradas!");
+
+
+            var rune = runes.FirstOrDefault(x => x.Name == name);
+            var newRune = new Rune();
+            List<ReforgedRunes> slots = new List<ReforgedRunes>();
+
+            foreach (var slot in rune.Slots)
+            {
+                foreach (var s in slot.Runes)
+                {
+                    var reforgedRune = new ReforgedRunes();
+
+                    reforgedRune.Name = s.Name;
+                    reforgedRune.Icon = runeImagePath + s.Icon;
+                    reforgedRune.Description = s.ShortDescription;
+
+                    slots.Add(reforgedRune);
+                }
+            }
+
+            newRune.Name = rune.Name;
+            newRune.Icon = runeImagePath + rune.Icon;
+            newRune.Slots = slots;
+
+            return newRune;
         }
 
         public List<Masteries> GetChampMastery(string summonerName)

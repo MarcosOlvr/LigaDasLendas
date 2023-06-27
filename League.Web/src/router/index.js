@@ -20,6 +20,12 @@ const routes = [
     component: () => import("../components/Runes.vue"),
   },
   {
+    path: '/rune/:runeName',
+    name: "rune",
+    component: () => import("../components/Rune.vue"),
+    params: true
+  },
+  {
     path: '/spells',
     component: () => import("../components/spells.vue"),
   },

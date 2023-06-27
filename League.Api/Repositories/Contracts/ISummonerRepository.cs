@@ -9,6 +9,7 @@ namespace League.Api.Repositories.Contracts
         Camille.RiotGames.LeagueV4.LeagueEntry[] GetLeagueSummoner(string summonerName);
         string GetSummonerIcon(int id);
         List<Rune> GetAllRunes();
+        Rune GetRuneByName(string name);
         List<Spell> GetAllSpells();
     }
 }
