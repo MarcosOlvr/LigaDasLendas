@@ -10,7 +10,7 @@
             summonerIconUrl: "",
             masteries: [],
             league: {},
-            latestMatchs: [],
+            latestMatches: [],
         };
     },
     methods: {
@@ -32,8 +32,9 @@
             api.get(`summoner/${this.summonerName}`)
             .then((response) => (api.get(`/match/latest/${response.data.puuid}`)
             .then((response) => (response.data.forEach(element => {
+                console.log(element);
                 api.get(`match/${element}`)
-                .then((response => (this.latestMatchs.push(response.data.info)))
+                .then((response => (this.latestMatches.push(response.data.info)))
                 )})
             ))));
         },
@@ -80,8 +81,8 @@
                         </div>
                     </div>
                     <hr>
-                    <div v-if="latestMatchs !== null">
-                        <div v-for="(match, i) in latestMatchs" :key="i">
+                    <div v-if="latestMatches !== null">
+                        <div v-for="(match, i) in latestMatches.sort((a, b) => a.gameId - b.gameId ).reverse()" :key="i">
                             <div v-for="player in match.participants">
                                 <div class="row border border-secondary p-2 m-2" v-if="player.summonerName === summonerName">
                                     <div class="col-2 text-center">
