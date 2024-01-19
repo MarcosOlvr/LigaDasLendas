@@ -32,7 +32,6 @@
             api.get(`summoner/${this.summonerName}`)
             .then((response) => (api.get(`/match/latest/${response.data.puuid}`)
             .then((response) => (response.data.forEach(element => {
-                console.log(element);
                 api.get(`match/${element}`)
                 .then((response => (this.latestMatches.push(response.data.info)))
                 )})
