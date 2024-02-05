@@ -19,13 +19,13 @@ namespace League.Api.Repositories
             riotApi = RiotGamesApi.NewInstance(Settings.Key);
             ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
 
-            var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
+            var allVersion = ddragon.DataDragon.Versions.GetAllAsync().Result;
             latestVersion = allVersion[0];
         }
 
         public Item GetItem(int itemId)
         {
-            var allItems = ddragon.StaticData.Items.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Items.Values;
+            var allItems = ddragon.DataDragon.Items.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Items.Values;
             var item = allItems.FirstOrDefault(x => x.Id == itemId);
 
             if (item == null)
@@ -48,7 +48,7 @@ namespace League.Api.Repositories
             int item3, int item4, 
             int item5, int item6)
         {
-            var allItems = ddragon.StaticData.Items.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Items.Values;
+            var allItems = ddragon.DataDragon.Items.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Items.Values;
             var fItem = allItems.FirstOrDefault(x => x.Id == item1);
             var sItem = allItems.FirstOrDefault(x => x.Id == item2);
             var tItem = allItems.FirstOrDefault(x => x.Id == item3);

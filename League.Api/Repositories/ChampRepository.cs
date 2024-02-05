@@ -19,7 +19,7 @@ namespace League.Api.Repositories
         {
             ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
 
-            var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
+            var allVersion = ddragon.DataDragon.Versions.GetAllAsync().Result;
             latestVersion = allVersion[0];
 
             loadScreenImageUrl = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/";
@@ -91,7 +91,7 @@ namespace League.Api.Repositories
 
         public List<Champ> GetAllChamps()
         {
-            var allChamps = ddragon.StaticData.Champions
+            var allChamps = ddragon.DataDragon.Champions
                 .GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Champions.Values;
 
             List<Champ> champions = new List<Champ>();
@@ -111,7 +111,7 @@ namespace League.Api.Repositories
 
         public Champ GetChampById(int id)
         {
-            var allChamps = ddragon.StaticData.Champions
+            var allChamps = ddragon.DataDragon.Champions
                 .GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Champions.Values;
             var championById = allChamps.FirstOrDefault(x => x.Id == id);
             
@@ -125,7 +125,7 @@ namespace League.Api.Repositories
 
         public Champ GetChampByName(string name)
         {
-            var allChamps = ddragon.StaticData.Champions
+            var allChamps = ddragon.DataDragon.Champions
                 .GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.Champions.Values;
 
             var championByName = allChamps.FirstOrDefault(x => x.Name.ToLower() == name.ToLower());

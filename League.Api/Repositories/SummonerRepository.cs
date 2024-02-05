@@ -23,7 +23,7 @@ namespace League.Api.Repositories
             ddragon = RiotApi.GetDevelopmentInstance(Settings.Key);
             _champRepository = champRepository;
 
-            var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
+            var allVersion = ddragon.DataDragon.Versions.GetAllAsync().Result;
             latestVersion = allVersion[0];
 
             runeImagePath = "https://raw.githubusercontent.com/InFinity54/LoL_DDragon/master/img/";
@@ -32,7 +32,7 @@ namespace League.Api.Repositories
 
         public List<Rune> GetAllRunes()
         {
-            var runes = ddragon.StaticData.ReforgedRunes.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result;
+            var runes = ddragon.DataDragon.ReforgedRunes.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result;
             var allRunes = new List<Rune>();
 
             if (runes == null)
@@ -52,7 +52,7 @@ namespace League.Api.Repositories
 
         public Rune GetRuneByName(string name)
         {
-            var runes = ddragon.StaticData.ReforgedRunes.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result;
+            var runes = ddragon.DataDragon.ReforgedRunes.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result;
 
             if (runes == null)
                 throw new Exception("Runas não encontradas!");
@@ -89,7 +89,7 @@ namespace League.Api.Repositories
             if (summoner == null)
                 throw new Exception("Invocador não encontrado!");
 
-            var masteries = riotApi.ChampionMasteryV4().GetTopChampionMasteries(PlatformRoute.BR1, summoner.Id);
+            var masteries = riotApi.ChampionMasteryV4().GetTopChampionMasteriesByPUUID(PlatformRoute.BR1, summoner.Puuid);
 
             if (masteries == null)
                 throw new Exception("Maestrias não foram localizadas!");
@@ -120,9 +120,9 @@ namespace League.Api.Repositories
 
         public string GetSummonerIcon(int id)
         {
-            var allVersion = ddragon.StaticData.Versions.GetAllAsync().Result;
+            var allVersion = ddragon.DataDragon.Versions.GetAllAsync().Result;
             var lastestVersion = allVersion[0];
-            var allIcons = ddragon.StaticData.ProfileIcons.GetAllAsync(lastestVersion, RiotSharp.Misc.Language.pt_BR)
+            var allIcons = ddragon.DataDragon.ProfileIcons.GetAllAsync(lastestVersion, RiotSharp.Misc.Language.pt_BR)
                 .Result
                 .ProfileIcons;
 
@@ -145,7 +145,7 @@ namespace League.Api.Repositories
 
         public List<Spell> GetAllSpells()
         {
-            var allSpells = ddragon.StaticData.SummonerSpells.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.SummonerSpells.Values.ToList();
+            var allSpells = ddragon.DataDragon.SummonerSpells.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR).Result.SummonerSpells.Values.ToList();
             var spellsList = new List<Spell>();
 
             foreach (var spell in allSpells)

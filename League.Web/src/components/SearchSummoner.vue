@@ -83,20 +83,38 @@
                     <div v-if="latestMatches !== null">
                         <div v-for="(match, i) in latestMatches.sort((a, b) => a.gameId - b.gameId ).reverse()" :key="i">
                             <div v-for="player in match.participants">
-                                <div class="row border border-secondary p-2 m-2" v-if="player.summonerName === summonerName">
-                                    <div class="col-2 text-center">
-                                        <p class="text-warning" v-if="match.gameMode === 'CLASSIC'">Partida ranqueada</p>
-                                        <p v-else>{{ match.gameMode }}</p>
-                                        <span class="text-info ms-3" v-if="player.win">VITÓRIA</span>
-                                        <span class="text-danger ms-3" v-else>DERROTA</span>
-                                    </div>
-                                    <div class="col-5 text-center">
-                                        <h3>{{ player.championName }}</h3>
-                                        <span>{{ player.kills }} / <span class="text-danger">{{ player.deaths }}</span>  / {{ player.assists }}</span>
-                                        <p class="badge badge-warning">KDA {{ player.challenges.kda.toFixed(2) }}</p>
-                                    </div>
-                                    <div class="col">
+                                <div v-if="player.win">
+                                    <div class="row border border-info p-2 m-2" v-if="player.summonerName === summonerName">
+                                        <div class="col-2 text-center">
+                                            <p class="text-warning" v-if="match.gameMode === 'CLASSIC'">Partida ranqueada</p>
+                                            <p v-else>{{ match.gameMode }}</p>
+                                            <span class="badge bg-info ms-3 text-black">VITÓRIA</span>
+                                        </div>
+                                        <div class="col-5 text-center">
+                                            <h3>{{ player.championName }}</h3>
+                                            <span>{{ player.kills }} / <span class="text-danger">{{ player.deaths }}</span>  / {{ player.assists }}</span>
+                                            <p class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>
+                                        </div>
+                                        <div class="col">
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <div class="row border border-danger p-2 m-2" v-if="player.summonerName === summonerName">
+                                        <div class="col-2 text-center">
+                                            <p class="text-warning" v-if="match.gameMode === 'CLASSIC'">Partida ranqueada</p>
+                                            <p v-else>{{ match.gameMode }}</p>
+                                            <span class="badge bg-danger ms-3">DERROTA</span>
+                                        </div>
+                                        <div class="col-5 text-center">
+                                            <h3>{{ player.championName }}</h3>
+                                            <span>{{ player.kills }} / <span class="text-danger">{{ player.deaths }}</span>  / {{ player.assists }}</span>
+                                            <p class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>
+                                        </div>
+                                        <div class="col">
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
