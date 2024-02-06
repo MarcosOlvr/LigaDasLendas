@@ -15,6 +15,7 @@ namespace League.Api.Repositories
         IChampRepository _champRepository;
         string latestVersion;
         string runeImagePath;
+        string runeIconPath;
         string spellImagePath;
 
         public SummonerRepository(IChampRepository champRepository)
@@ -27,6 +28,7 @@ namespace League.Api.Repositories
             latestVersion = allVersion[0];
 
             runeImagePath = "https://raw.githubusercontent.com/InFinity54/LoL_DDragon/master/img/";
+            runeIconPath = "https://lolstatic-a.akamaihd.net/frontpage/apps/prod/preseason-2018/pt_BR/a6708b7ae3dbc0b25463f9c8e259a513d2c4c7e6/assets/img/customizer/";
             spellImagePath = $"http://ddragon.leagueoflegends.com/cdn/{latestVersion}/img/spell/";
         }
 
@@ -42,7 +44,7 @@ namespace League.Api.Repositories
             {
                 var r = new Rune();
                 r.Name = rune.Name;
-                r.Icon = runeImagePath + rune.Icon;
+                r.Icon = runeIconPath + rune.Id + "/stripe.jpg";
 
                 allRunes.Add(r);
             }
