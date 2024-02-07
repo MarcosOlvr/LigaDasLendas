@@ -11,6 +11,7 @@
             masteries: [],
             league: {},
             latestMatches: [],
+            items: []
         };
     },
     methods: {
@@ -37,6 +38,14 @@
                 )})
             ))));
         },
+        getItem(item0, item1, item2, item3, item4, item5) {
+            api.get(`/items?item1=${item0}
+            &item2=${item1}
+            &item3=${item2}
+            &item4=${item3}
+            &item5=${item4}
+            &item6=${item5}`).then((response) => (this.items.push(response.data.data)))
+        }
     },
     });
     </script>
@@ -96,7 +105,12 @@
                                             <p class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>
                                         </div>
                                         <div class="col">
-
+                                            <button class="btn btn-primary" @click="getItem(player.item0, player.item1, player.item2, player.item3, player.item4, player.item5)">teste</button>   
+                                            <div v-if="items !== null">
+                                                <div v-for="(item, i) in items" :key="i">
+                                                    <p>{{ item }}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +127,10 @@
                                             <p class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>
                                         </div>
                                         <div class="col">
-
+                                            {{ player.item0 }}
+                                            {{ player.item1 }}
+                                            {{ player.item2 }}
+                                            {{ player.item3 }}
                                         </div>
                                     </div>
                                 </div>
