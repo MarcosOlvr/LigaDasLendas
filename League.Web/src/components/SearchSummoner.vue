@@ -92,45 +92,54 @@
                     <div v-if="latestMatches !== null">
                         <div v-for="(match, i) in latestMatches.sort((a, b) => a.gameId - b.gameId ).reverse()" :key="i">
                             <div v-for="player in match.participants">
-                                <div v-if="player.win">
-                                    <div class="row border border-info p-2 m-2" v-if="player.summonerName === summonerName">
-                                        <div class="col-2 text-center">
-                                            <p class="text-warning" v-if="match.gameMode === 'CLASSIC'">Partida ranqueada</p>
-                                            <p v-else>{{ match.gameMode }}</p>
-                                            <span class="badge bg-info ms-3 text-black">VITÓRIA</span>
-                                        </div>
-                                        <div class="col-5 text-center">
-                                            <h3>{{ player.championName }}</h3>
-                                            <span>{{ player.kills }} / <span class="text-danger">{{ player.deaths }}</span>  / {{ player.assists }}</span>
-                                            <p class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>
-                                        </div>
-                                        <div class="col">
-                                            <button class="btn btn-primary" @click="getItem(player.item0, player.item1, player.item2, player.item3, player.item4, player.item5)">teste</button>   
-                                            <div v-if="items !== null">
-                                                <div v-for="(item, i) in items" :key="i">
-                                                    <p>{{ item }}</p>
+                                <div v-if="player.gameEndedInEarlySurrender === false">
+                                    <div v-if="player.win">
+                                        <div class="row border border-info p-2 m-2" v-if="player.summonerName === summonerName">
+                                            <div class="col-2 text-center">
+                                                <p class="text-warning" v-if="match.queueId === 420">Partida ranqueada</p>
+                                                <p class="text-warning" v-else-if="match.queueId === 400">Partida normal</p>
+                                                <p class="text-warning" v-else-if="match.queueId === 440">Partida ranqueada flex</p>
+                                                <p class="text-warning" v-else-if="match.queueId === 450">ARAM</p>
+                                                <p class="text-warning" v-else-if="match.queueId === 1900">URF</p>
+                                                <span v-if="player.win === true" class="badge bg-info text-black">VITÓRIA</span>
+                                                <span v-else class="badge bg-danger">DERROTA</span>
+                                            </div>
+                                            <div class="col-5 text-center">
+                                                <h3>{{ player.championName }}</h3>
+                                                <span>{{ player.kills }} / <span class="text-danger">{{ player.deaths }}</span>  / {{ player.assists }}</span>
+                                                <p v-if="player.challenges.kda >= 0" class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>
+                                            </div>
+                                            <div class="col">
+                                                <button class="btn btn-primary" @click="getItem(player.item0, player.item1, player.item2, player.item3, player.item4, player.item5)">teste</button>   
+                                                <div v-if="items !== null">
+                                                    <div v-for="(item, i) in items" :key="i">
+                                                        <p>{{ item }}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div v-else>
-                                    <div class="row border border-danger p-2 m-2" v-if="player.summonerName === summonerName">
-                                        <div class="col-2 text-center">
-                                            <p class="text-warning" v-if="match.gameMode === 'CLASSIC'">Partida ranqueada</p>
-                                            <p v-else>{{ match.gameMode }}</p>
-                                            <span class="badge bg-danger ms-3">DERROTA</span>
-                                        </div>
-                                        <div class="col-5 text-center">
-                                            <h3>{{ player.championName }}</h3>
-                                            <span>{{ player.kills }} / <span class="text-danger">{{ player.deaths }}</span>  / {{ player.assists }}</span>
-                                            <p class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>
-                                        </div>
-                                        <div class="col">
-                                            {{ player.item0 }}
-                                            {{ player.item1 }}
-                                            {{ player.item2 }}
-                                            {{ player.item3 }}
+                                    <div v-else>
+                                        <div class="row border border-danger p-2 m-2" v-if="player.summonerName === summonerName">
+                                            <div class="col-2 text-center">
+                                                <p class="text-warning" v-if="match.queueId === 420">Partida ranqueada</p>
+                                                <p class="text-warning" v-else-if="match.queueId === 400">Partida normal</p>
+                                                <p class="text-warning" v-else-if="match.queueId === 440">Partida ranqueada flex</p>
+                                                <p class="text-warning" v-else-if="match.queueId === 450">ARAM</p>
+                                                <p class="text-warning" v-else-if="match.queueId === 1900">URF</p>
+                                                <span class="badge bg-danger">DERROTA</span>
+                                            </div>
+                                            <div class="col-5 text-center">
+                                                <h3>{{ player.championName }}</h3>
+                                                <span>{{ player.kills }} / <span class="text-danger">{{ player.deaths }}</span>  / {{ player.assists }}</span>
+                                                <p v-if="player.challenges.kda >= 0" class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>  
+                                            </div>
+                                            <div class="col">
+                                                {{ player.item0 }}
+                                                {{ player.item1 }}
+                                                {{ player.item2 }}
+                                                {{ player.item3 }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
