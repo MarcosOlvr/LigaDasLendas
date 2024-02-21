@@ -111,9 +111,11 @@ namespace League.Api.Repositories
             return list;
         }
 
-        public Summoner GetSummoner(string summonerName)
+        public Summoner GetSummoner(string summonerName, string tagLine)
         {
-            var summoner = riotApi.SummonerV4().GetBySummonerName(PlatformRoute.BR1, summonerName);
+            var riotAccount = riotApi.AccountV1().GetByRiotId(RegionalRoute.AMERICAS, summonerName, tagLine);
+
+            var summoner = riotApi.SummonerV4().GetByPUUID(PlatformRoute.BR1, riotAccount.Puuid);
             if (summoner == null)
                 throw new Exception("Invocador não encontrado!");
 

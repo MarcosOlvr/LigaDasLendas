@@ -6,6 +6,7 @@
         data() {
         return {
             summonerName: "",
+            riotTagLine: "",
             summoner: null,
             summonerIconUrl: "",
             masteries: [],
@@ -16,21 +17,21 @@
     },
     methods: {
         search() {
-            api.get(`/summoner/${this.summonerName}`)
+            api.get(`/summoner/${this.summonerName}-${this.riotTagLine}`)
             .then((response) => (this.summoner = response.data));
             
-            api.get(`/summoner/${this.summonerName}`)
+            api.get(`/summoner/${this.summonerName}-${this.riotTagLine}`)
             .then((response) => (api.get(`/icon/${response.data.profileIconId}`)
             .then((response) => (this.summonerIconUrl = response.data))));
 
             api.get(`/masteries/${this.summonerName}`)
             .then((response) => (this.masteries = response.data));
 
-            api.get(`summoner/${this.summonerName}`)
+            api.get(`summoner/${this.summonerName}-${this.riotTagLine}`)
             .then((response) => (api.get(`/league/${response.data.id}`)
             .then((response) => (this.league = response.data[0]))));
 
-            api.get(`summoner/${this.summonerName}`)
+            api.get(`summoner/${this.summonerName}-${this.riotTagLine}`)
             .then((response) => (api.get(`/match/latest/${response.data.puuid}`)
             .then((response) => (response.data.forEach(element => {
                 api.get(`match/${element}`)
@@ -150,9 +151,16 @@
             </div>
             <div v-if="summoner === null">
                 <img src="../services/imagens/bg/download.jpg" class="mx-auto d-block mt-4 mb-3 img-fluid shadow" width="500">
-                <div class="input-group mb-3">
-                    <input type="text" v-model="summonerName" class="form-control text-white bg-dark border-1 border-secondary shadow" placeholder="Nome de Invocador"/>
-                    <button class="input-group-text btn btn-primary rounded-left border-1" @click="search()"><i class="bi bi-search"></i></button>
+                <div class="input-group mb-3 row">
+                    <div class="col-8">
+                        <input type="text" v-model="summonerName" class="form-control text-white bg-dark border-1 border-secondary shadow" placeholder="Nome de Invocador"/>
+                    </div>
+                    <div class="col-3">
+                        <input type="text" v-model="riotTagLine" class="form-control text-white bg-dark border-1 border-secondary shadow" placeholder="BR1"/>
+                    </div>
+                    <div class="col-1">
+                        <button class="input-group-text btn btn-primary rounded-left border-1" @click="search()"><i class="bi bi-search"></i></button>
+                    </div>
                 </div>
                 <span class="text-muted text-center">Região: Apenas Brasil</span>
             </div> 

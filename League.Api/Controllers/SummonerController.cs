@@ -16,12 +16,12 @@ namespace League.Api.Controllers
             _summonerRepo = summonerRepository;
         }
 
-        [HttpGet("summoner/{summonerName}")]
-        public ActionResult GetSummonerByName([FromRoute] string summonerName)
+        [HttpGet("summoner/{summonerName}-{tagline}")]
+        public ActionResult GetSummonerByName([FromRoute] string summonerName, string tagLine)
         {
             try
             {
-                var summoner = _summonerRepo.GetSummoner(summonerName);
+                var summoner = _summonerRepo.GetSummoner(summonerName, tagLine);
 
                 return Ok(summoner);
             }
