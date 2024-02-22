@@ -86,7 +86,7 @@
                             <div v-for="player in match.participants">
                                 <div v-if="player.gameEndedInEarlySurrender === false">
                                     <div>
-                                        <div v-bind:style= "[player.win ? {'border': 'solid #31DBEB'} : {'border': 'solid #EB1A01'}]" class="row p-2 m-2" v-if="player.summonerName === summonerName">
+                                        <div v-bind:style= "[player.win ? {'border': 'solid #2387FA'} : {'border': 'solid #EB1A01'}]" class="row p-2 m-2" v-if="player.summonerName === summonerName">
                                             <div class="col-3 text-center">
                                                 <p class="text-warning" v-if="match.queueId === 420">Partida ranqueada</p>
                                                 <p class="text-warning" v-else-if="match.queueId === 400">Partida normal</p>
