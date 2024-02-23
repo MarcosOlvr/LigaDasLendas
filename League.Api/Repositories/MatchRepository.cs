@@ -1,4 +1,5 @@
-﻿using Camille.RiotGames;
+﻿using Camille.Enums;
+using Camille.RiotGames;
 using Camille.RiotGames.MatchV5;
 using League.Api.Models;
 using League.Api.Repositories.Contracts;
@@ -98,9 +99,11 @@ namespace League.Api.Repositories
             return match;
         }
 
-        public List<string> GetMatches(string summonerPuuid)
+        public List<string> GetMatches(string riotId, string tagLine)
         {
-            var lastMatches = riotApi.MatchV5().GetMatchIdsByPUUID(Camille.Enums.RegionalRoute.AMERICAS, summonerPuuid, 10);
+            var riotAccount = riotApi.AccountV1().GetByRiotId(RegionalRoute.AMERICAS, riotId, tagLine);
+
+            var lastMatches = riotApi.MatchV5().GetMatchIdsByPUUID(Camille.Enums.RegionalRoute.AMERICAS, riotAccount.Puuid, 10);
 
             if (lastMatches == null)
                 throw new Exception("Histórico de partida não encontrado!");

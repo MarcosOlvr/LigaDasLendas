@@ -31,21 +31,12 @@
             .then((response) => (api.get(`/league/${response.data.id}`)
             .then((response) => (this.league = response.data[0]))));
 
-            api.get(`summoner/${this.summonerName}-${this.riotTagLine}`)
-            .then((response) => (api.get(`/match/latest/${response.data.puuid}`)
+            api.get(`/match/latest/${this.summonerName}-${this.riotTagLine}`)
             .then((response) => (response.data.forEach(element => {
                 api.get(`match/${element}`)
                 .then((response => (this.latestMatches.push(response.data.info)))
                 )})
-            ))));
-        },
-        getItem(item0, item1, item2, item3, item4, item5) {
-            api.get(`/items?item1=${item0}
-            &item2=${item1}
-            &item3=${item2}
-            &item4=${item3}
-            &item5=${item4}
-            &item6=${item5}`).then((response) => (this.items.push(response.data.data)))
+            ));
         }
     },
     });
@@ -94,9 +85,9 @@
                         <div v-for="(match, i) in latestMatches.sort((a, b) => a.gameId - b.gameId ).reverse()" :key="i">
                             <div v-for="player in match.participants">
                                 <div v-if="player.gameEndedInEarlySurrender === false">
-                                    <div v-if="player.win">
-                                        <div class="row border border-info p-2 m-2" v-if="player.summonerName === summonerName">
-                                            <div class="col-2 text-center">
+                                    <div>
+                                        <div v-bind:style= "[player.win ? {'border': 'solid #31DBEB'} : {'border': 'solid #EB1A01'}]" class="row p-2 m-2" v-if="player.summonerName === summonerName">
+                                            <div class="col-3 text-center">
                                                 <p class="text-warning" v-if="match.queueId === 420">Partida ranqueada</p>
                                                 <p class="text-warning" v-else-if="match.queueId === 400">Partida normal</p>
                                                 <p class="text-warning" v-else-if="match.queueId === 440">Partida ranqueada flex</p>
@@ -105,41 +96,13 @@
                                                 <span v-if="player.win === true" class="badge bg-info text-black">VITÓRIA</span>
                                                 <span v-else class="badge bg-danger">DERROTA</span>
                                             </div>
-                                            <div class="col-5 text-center">
+                                            <div class="col-6 text-center">
                                                 <h3>{{ player.championName }}</h3>
                                                 <span>{{ player.kills }} / <span class="text-danger">{{ player.deaths }}</span>  / {{ player.assists }}</span>
                                                 <p v-if="player.challenges.kda >= 0" class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>
                                             </div>
-                                            <div class="col">
-                                                <button class="btn btn-primary" @click="getItem(player.item0, player.item1, player.item2, player.item3, player.item4, player.item5)">teste</button>   
-                                                <div v-if="items !== null">
-                                                    <div v-for="(item, i) in items" :key="i">
-                                                        <p>{{ item }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div v-else>
-                                        <div class="row border border-danger p-2 m-2" v-if="player.summonerName === summonerName">
-                                            <div class="col-2 text-center">
-                                                <p class="text-warning" v-if="match.queueId === 420">Partida ranqueada</p>
-                                                <p class="text-warning" v-else-if="match.queueId === 400">Partida normal</p>
-                                                <p class="text-warning" v-else-if="match.queueId === 440">Partida ranqueada flex</p>
-                                                <p class="text-warning" v-else-if="match.queueId === 450">ARAM</p>
-                                                <p class="text-warning" v-else-if="match.queueId === 1900">URF</p>
-                                                <span class="badge bg-danger">DERROTA</span>
-                                            </div>
-                                            <div class="col-5 text-center">
-                                                <h3>{{ player.championName }}</h3>
-                                                <span>{{ player.kills }} / <span class="text-danger">{{ player.deaths }}</span>  / {{ player.assists }}</span>
-                                                <p v-if="player.challenges.kda >= 0" class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>  
-                                            </div>
-                                            <div class="col">
-                                                {{ player.item0 }}
-                                                {{ player.item1 }}
-                                                {{ player.item2 }}
-                                                {{ player.item3 }}
+                                            <div class="col-3">
+                                                <p>{{ player.item0, player.item1, player.item2, player.item3, player.item4, player.item5 }}</p>
                                             </div>
                                         </div>
                                     </div>

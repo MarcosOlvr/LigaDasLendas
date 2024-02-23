@@ -35,12 +35,12 @@ namespace League.Api.Controllers
             }
         }
 
-        [HttpGet("match/latest/{puuid}/")]
-        public ActionResult GetLastMatches(string puuid)
+        [HttpGet("match/latest/{riotId}-{tagLine}/")]
+        public ActionResult GetLastMatches(string riotId, string tagLine)
         {
             try
             {
-                var lastMatches = _matchRepo.GetMatches(puuid);
+                var lastMatches = _matchRepo.GetMatches(riotId, tagLine);
 
                 return Ok(lastMatches);
             }

@@ -5,7 +5,7 @@ namespace League.Api.Repositories.Contracts
     public interface IMatchRepository
     {
         Camille.RiotGames.MatchV5.Match GetMatchById(string id);
-        List<string> GetMatches(string summonerPuuid);
+        List<string> GetMatches(string riotId, string tagLine);
         Item GetItem(int itemId);
         List<Item> GetItems(
             int item1, int item2, 
