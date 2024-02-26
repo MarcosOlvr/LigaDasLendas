@@ -91,7 +91,7 @@ namespace League.Api.Repositories
 
         public Match GetMatchById(string id)
         {
-            var match = riotApi.MatchV5().GetMatch(Camille.Enums.RegionalRoute.AMERICAS, id);
+            var match = riotApi.MatchV5().GetMatch(RegionalRoute.AMERICAS, id);
 
             if (match == null)
                 throw new Exception("Dados da partida não encontrados! Possa ser que o Id informado não exista.");
@@ -103,7 +103,7 @@ namespace League.Api.Repositories
         {
             var riotAccount = riotApi.AccountV1().GetByRiotId(RegionalRoute.AMERICAS, riotId, tagLine);
 
-            var lastMatches = riotApi.MatchV5().GetMatchIdsByPUUID(Camille.Enums.RegionalRoute.AMERICAS, riotAccount.Puuid, 10);
+            var lastMatches = riotApi.MatchV5().GetMatchIdsByPUUID(RegionalRoute.AMERICAS, riotAccount.Puuid, 10);
 
             if (lastMatches == null)
                 throw new Exception("Histórico de partida não encontrado!");

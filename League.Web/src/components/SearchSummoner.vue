@@ -34,9 +34,25 @@
             api.get(`/match/latest/${this.summonerName}-${this.riotTagLine}`)
             .then((response) => (response.data.forEach(element => {
                 api.get(`match/${element}`)
-                .then((response => (this.latestMatches.push(response.data.info)))
-                )})
-            ));
+                .then((response => (this.latestMatches.push(response.data.info))));
+            })));
+
+            api.get(`/match/latest/${this.summonerName}-${this.riotTagLine}`)
+            .then((response) => (response.data.forEach(element => {
+                api.get(`match/${element}`)
+                .then((response => (response.data.info.participants.forEach(player => {
+                    if (player.summonerName === this.summonerName) {
+                            api.get(`/items?item1=${player.item0}
+                            &item2=${player.item1}
+                            &item3=${player.item2}
+                            &item4=${player.item3}
+                            &item5=${player.item4}
+                            &item6=${player.item5}`)
+                            .then((response => (this.items.push(response.data))));
+                        }   
+                    })
+                )))
+            })))
         }
     },
     });
@@ -82,7 +98,7 @@
                     </div>
                     <hr>
                     <div v-if="latestMatches !== null">
-                        <div v-for="(match, i) in latestMatches.sort((a, b) => a.gameId - b.gameId ).reverse()" :key="i">
+                        <div v-for="(match, key) in latestMatches.sort((a, b) => a.gameId - b.gameId ).reverse()" :key="key">
                             <div v-for="player in match.participants">
                                 <div v-if="player.gameEndedInEarlySurrender === false">
                                     <div>
@@ -102,7 +118,11 @@
                                                 <p v-if="player.challenges.kda >= 0" class="badge bg-warning m-2">KDA {{ player.challenges.kda.toFixed(2) }}</p>
                                             </div>
                                             <div class="col-3">
-                                                <p>{{ player.item0, player.item1, player.item2, player.item3, player.item4, player.item5 }}</p>
+                                                <div v-for="(item, i) in items.sort().reverse()" :key="i">
+                                                    <span v-if="key === i">
+                                                        {{ item }}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
