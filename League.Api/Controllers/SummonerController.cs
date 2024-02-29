@@ -35,12 +35,12 @@ namespace League.Api.Controllers
             }
         }
 
-        [HttpGet("masteries/{summonerName}")]
-        public ActionResult GetMasteriesChamps([FromRoute] string summonerName)
+        [HttpGet("masteries/{summonerName}-{tagLine}")]
+        public ActionResult GetMasteriesChamps([FromRoute] string summonerName, string tagLine)
         {
             try
             {
-                var masteries = _summonerRepo.GetChampMastery(summonerName);
+                var masteries = _summonerRepo.GetChampMastery(summonerName, tagLine);
 
                 return Ok(masteries);
             }
@@ -73,12 +73,31 @@ namespace League.Api.Controllers
             }
         }
         
-        [HttpGet("league/{summonerId}")]
-        public ActionResult GetLeague([FromRoute] string summonerId)
+        [HttpGet("icon/{summonerId}-{tagLine}")]
+        public ActionResult GetProfileIconBySummonerName([FromRoute] string summonerName, string tagLine)
         {
             try
             {
-                var league = _summonerRepo.GetLeagueSummoner(summonerId);
+                var profileIconUrl = _summonerRepo.GetSummonerIcon(summonerName, tagLine);
+
+                return Ok(profileIconUrl);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new
+                {
+                    statusCode = 400,
+                    message = ex.Message
+                });
+            }
+        }
+        
+        [HttpGet("league/{summonerId}-{tagLine}")]
+        public ActionResult GetLeague([FromRoute] string summonerName, string tagLine)
+        {
+            try
+            {
+                var league = _summonerRepo.GetLeagueSummoner(summonerName, tagLine);
 
                 return Ok(league);
             }

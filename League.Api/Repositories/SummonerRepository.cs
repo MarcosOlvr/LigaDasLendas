@@ -85,13 +85,14 @@ namespace League.Api.Repositories
             return newRune;
         }
 
-        public List<Masteries> GetChampMastery(string summonerName)
+        public List<Masteries> GetChampMastery(string summonerName, string tagLine)
         {
-            var summoner = riotApi.SummonerV4().GetBySummonerName(PlatformRoute.BR1, summonerName);
-            if (summoner == null)
+            var account = riotApi.AccountV1().GetByRiotId(RegionalRoute.AMERICAS, summonerName, tagLine);
+
+            if (account == null)
                 throw new Exception("Invocador não encontrado!");
 
-            var masteries = riotApi.ChampionMasteryV4().GetTopChampionMasteriesByPUUID(PlatformRoute.BR1, summoner.Puuid);
+            var masteries = riotApi.ChampionMasteryV4().GetTopChampionMasteriesByPUUID(PlatformRoute.BR1, account.Puuid);
 
             if (masteries == null)
                 throw new Exception("Maestrias não foram localizadas!");
@@ -124,22 +125,40 @@ namespace League.Api.Repositories
 
         public string GetSummonerIcon(int id)
         {
-            var allVersion = ddragon.DataDragon.Versions.GetAllAsync().Result;
-            var lastestVersion = allVersion[0];
-            var allIcons = ddragon.DataDragon.ProfileIcons.GetAllAsync(lastestVersion, RiotSharp.Misc.Language.pt_BR)
+            var allIcons = ddragon.DataDragon.ProfileIcons.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR)
                 .Result
                 .ProfileIcons;
 
             var summonerIcon = allIcons.FirstOrDefault(x => x.Value.Id == id).Value.Id;
 
-            var iconUrl = $"http://ddragon.leagueoflegends.com/cdn/12.17.1/img/profileicon/{summonerIcon}.png";
+            var iconUrl = $"http://ddragon.leagueoflegends.com/cdn/{latestVersion}/img/profileicon/{summonerIcon}.png";
+
+            return iconUrl;
+        }
+        
+        public string GetSummonerIcon(string summonerName, string tagLine)
+        {
+            var account = riotApi.AccountV1().GetByRiotId(RegionalRoute.AMERICAS, summonerName, tagLine);
+
+            var allIcons = ddragon.DataDragon.ProfileIcons.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR)
+                .Result
+                .ProfileIcons;
+
+            var summoner = riotApi.SummonerV4().GetByPUUID(PlatformRoute.BR1, account.Puuid);
+
+            var summonerIcon = allIcons.FirstOrDefault(x => x.Value.Id == summoner.ProfileIconId).Value.Id;
+
+            var iconUrl = $"http://ddragon.leagueoflegends.com/cdn/{latestVersion}/img/profileicon/{summonerIcon}.png";
 
             return iconUrl;
         }
 
-        public LeagueEntry[] GetLeagueSummoner(string summonerId)
+        public LeagueEntry[] GetLeagueSummoner(string summonerName, string tagLine)
         {
-            var league = riotApi.LeagueV4().GetLeagueEntriesForSummoner(PlatformRoute.BR1, summonerId);
+            var account = riotApi.AccountV1().GetByRiotId(RegionalRoute.AMERICAS, summonerName, tagLine);
+            var summoner = riotApi.SummonerV4().GetByPUUID(PlatformRoute.BR1, account.Puuid);
+
+            var league = riotApi.LeagueV4().GetLeagueEntriesForSummoner(PlatformRoute.BR1, summoner.Id);
 
             if (league == null)
                 throw new Exception("Liga não encontrada!");

@@ -20,11 +20,10 @@
             api.get(`/summoner/${this.summonerName}-${this.riotTagLine}`)
             .then((response) => (this.summoner = response.data));
             
-            api.get(`/summoner/${this.summonerName}-${this.riotTagLine}`)
-            .then((response) => (api.get(`/icon/${response.data.profileIconId}`)
-            .then((response) => (this.summonerIconUrl = response.data))));
+            api.get(`/icon/${this.summonerName}-${this.riotTagLine}`)
+            .then((response) => (this.summonerIconUrl = response.data));
 
-            api.get(`/masteries/${this.summonerName}`)
+            api.get(`/masteries/${this.summonerName}-${this.riotTagLine}`)
             .then((response) => (this.masteries = response.data));
 
             api.get(`summoner/${this.summonerName}-${this.riotTagLine}`)
