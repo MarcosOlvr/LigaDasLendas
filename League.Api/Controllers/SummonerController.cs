@@ -16,7 +16,7 @@ namespace League.Api.Controllers
             _summonerRepo = summonerRepository;
         }
 
-        [HttpGet("summoner/{summonerName}-{tagline}")]
+        [HttpGet("summoner/{summonerName}-{tagLine}")]
         public ActionResult GetSummonerByName([FromRoute] string summonerName, string tagLine)
         {
             try
@@ -73,7 +73,7 @@ namespace League.Api.Controllers
             }
         }
         
-        [HttpGet("icon/{summonerId}-{tagLine}")]
+        [HttpGet("icon/{summonerName}-{tagLine}")]
         public ActionResult GetProfileIconBySummonerName([FromRoute] string summonerName, string tagLine)
         {
             try
@@ -92,7 +92,7 @@ namespace League.Api.Controllers
             }
         }
         
-        [HttpGet("league/{summonerId}-{tagLine}")]
+        [HttpGet("league/{summonerName}-{tagLine}")]
         public ActionResult GetLeague([FromRoute] string summonerName, string tagLine)
         {
             try
