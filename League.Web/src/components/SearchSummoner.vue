@@ -39,32 +39,32 @@
         <main class="container">
             <div>
                 <div v-if="summoner !== null">
-                    <div class="row">
-                        <div class="col-4 text-center border-end border-secondary">
-                            <img class="m-3 rounded shadow" :src="summonerIconUrl" height="100">
-                            <div class="mt-2">
+                    <div class="row align-items-center">
+                        <div class="col text-center border-end border-secondary">
+                            <img class="rounded shadow" :src="summonerIconUrl" height="100">
+                            <div>
                                 <h3 class="text-warning">{{ summoner.name }}</h3>
-                                <span class="mx-2 mt-2">
+                                <span>
                                     <span class="badge bg-info text-black">{{ summoner.summonerLevel }}</span>
                                 </span>
                             </div>
                         </div>
                         <div v-if="league !== undefined" class="col-4 text-center border-end border-secondary">
                             <img :src="'src/services/imagens/rank/' + league.tier + '.png'" height="125"/>
-                            <div class="d-flex justify-content-center mt-2"> 
+                            <div class="d-flex justify-content-center"> 
                                 <p>{{ league.tier }}</p>
                                 <p class="ms-1">{{ league.rank }}</p>
                             </div>
                             <span class="badge bg-warning">{{ league.leaguePoints }} pdl</span>
                         </div>
-                        <div v-else class="col-4 text-center border-end border-secondary">
+                        <div v-else class="col text-center border-end border-secondary">
                             <img src="../services/imagens/rank/unranked.png" height="125">
                         </div>
-                        <div class="col-4">
-                            <div class="d-inline-block p-3 p-2 text-center" v-for="m in masteries">
+                        <div class="col text-center">
+                            <div class="d-inline-block px-3 text-center" v-for="m in masteries">
                                 <div>
                                     <img class="shadow" :src="m.champion.squareImage" height="75">
-                                    <h6 class="mt-2 text-warning">{{ m.champion.name }}</h6>
+                                    <h6 class="text-warning">{{ m.champion.name }}</h6>
                                     <img :src="'https://raw.githubusercontent.com/InFinity54/LoL_DDragon/master/extras/masteries/mastery' + m.championLevel + '.png'" height="55">
                                     <p>
                                         <span class="badge bg-info text-black">{{ m.championPoints }} pts</span> 
