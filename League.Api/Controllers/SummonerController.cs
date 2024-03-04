@@ -53,25 +53,6 @@ namespace League.Api.Controllers
                 });
             }
         }
-
-        [HttpGet("icon/{id:int}")]
-        public ActionResult GetProfileIconById([FromRoute] int id)
-        {
-            try
-            {
-                var profileIconUrl = _summonerRepo.GetSummonerIcon(id);
-
-                return Ok(profileIconUrl);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(new
-                {
-                    statusCode = 400,
-                    message = ex.Message
-                });
-            }
-        }
         
         [HttpGet("icon/{summonerName}-{tagLine}")]
         public ActionResult GetProfileIconBySummonerName([FromRoute] string summonerName, string tagLine)

@@ -19,7 +19,7 @@
     <div class="container">
         <div v-if="runes != null" class="row">
             <div class="col-sm m-3" v-for="(rune, i) in runes" :key="i">
-                <div class="card text-center bg-dark p-2" style="width: 18rem;">
+                <div class="card text-center bg-dark p-2" style="width: 14rem;">
                     <div class="shadow">
                         <img class="img-fluid rounded" :src="rune.icon" alt="Card image cap" height="40">
                     </div>

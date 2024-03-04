@@ -120,20 +120,9 @@ namespace League.Api.Repositories
             if (summoner == null)
                 throw new Exception("Invocador não encontrado!");
 
+            summoner.Name = riotAccount.GameName;
+
             return summoner;
-        }
-
-        public string GetSummonerIcon(int id)
-        {
-            var allIcons = ddragon.DataDragon.ProfileIcons.GetAllAsync(latestVersion, RiotSharp.Misc.Language.pt_BR)
-                .Result
-                .ProfileIcons;
-
-            var summonerIcon = allIcons.FirstOrDefault(x => x.Value.Id == id).Value.Id;
-
-            var iconUrl = $"http://ddragon.leagueoflegends.com/cdn/{latestVersion}/img/profileicon/{summonerIcon}.png";
-
-            return iconUrl;
         }
         
         public string GetSummonerIcon(string summonerName, string tagLine)
