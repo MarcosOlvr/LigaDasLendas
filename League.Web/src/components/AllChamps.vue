@@ -54,13 +54,13 @@ export default defineComponent({
                                 <span v-if="c == 'Marksman'" class="badge bg-white text-black">{{ c }}</span>
                                 <span v-if="c == 'Fighter'" class="badge bg-primary">{{ c }}</span>
                             </div>
-                            <router-link :to="{ name: 'champion', params: { champName: champByName.name }}" class="btn d-block btn-primary mt-1"><i class="bi bi-plus-circle"></i></router-link>
+                            <router-link :to="{ name: 'champion', params: { champName: champByName.name }}" class="d-block mt-2"><i class="bi bi-plus-circle"></i></router-link>
                         </div>
                     </div>
             </div>
             <div v-if="champByName === null" class="d-lg-flex flex-wrap d-sm-block justify-content-center">
                 <div v-for="(champ, i) in champions" :key="i">
-                    <div class="card text-center m-2 bg-black" style="width: 9rem; height: 21rem;">
+                    <div class="card text-center m-2 bg-black" style="width: 8rem; height: 18rem;">
                         <img class="card-img-top" :src="champ.squareImage">
                         <div class="card-body">
                             <h5 class="card-title">{{ champ.name }}</h5>
@@ -72,7 +72,7 @@ export default defineComponent({
                                 <span v-if="c == 'Marksman'" class="badge bg-white text-black">{{ c }}</span>
                                 <span v-if="c == 'Fighter'" class="badge bg-primary">{{ c }}</span>
                             </div>
-                            <router-link :to="{ name: 'champion', params: { champName: champ.name }}" class="btn d-block btn-primary mt-1"><i class="bi bi-plus-circle"></i></router-link>
+                            <router-link :to="{ name: 'champion', params: { champName: champ.name }}" class="d-block mt-2"><i class="bi bi-plus-circle"></i></router-link>
                         </div>
                     </div>
                 </div>

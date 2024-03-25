@@ -13,7 +13,7 @@ $ cd LigaDasLendas
 
 3. Install .NET libraries
 ```
-$ dotnet add package RiotSharp --version 4.0.0
+$ dotnet add package RiotSharp
 ```
 ```
 $ dotnet add package Camille.RiotGames
@@ -31,13 +31,16 @@ $ npm i
 You'll need a key to access the RIOT API. Go to https://developer.riotgames.com/apis and make your request.
 
 Then create a file like this:
-![example](image.png)
+![example](images/image.png)
 
 ## Summoner 
-* GET *api/summoner/summonerName*
-* GET *api/masteries/summonerName*
-* GET *api/icon/iconId*
-* GET *api/league/summonerId*
+* GET *api/summoner/summonerName-tagLine*
+* GET *api/masteries/summonerName-tagLine*
+* GET *api/icon/summonerName-tagLine*
+* GET *api/league/summonerName-tagLine*
+* GET *api/runes*
+* GET *api/runes/runeName*
+* GET *api/spells*
 
 ## Champions
 * GET *api/champ/{skip}/{take}*
@@ -45,7 +48,30 @@ Then create a file like this:
 * GET *api/champ/champName*
 
 ## Matches
-* GET *api/match/matchId*
-* GET *api/match/latest/summonerPuuid*
-* GET *api/item/itemId*
-* GET *api/items?item1=Id&item2=Id&item3=Id&item4=Id&item5=Id&item6=Id*
+* GET *match/latest/{riotId}-{tagLine}/*
+
+<br>
+
+# FrontEnd Pages 
+
+### Home
+![index page](images/image-1.png)
+![alt text](images/image-11.png)
+
+### Champions
+![alt text](images/image-2.png)
+
+![alt text](images/image-3.png)
+
+![alt text](images/image-4.png)
+
+### Champion (Lucian)
+![alt text](images/image-6.png)
+![alt text](images/image-7.png)
+![alt text](images/image-8.png)
+
+### Runes 
+![alt text](images/image-9.png)
+
+### Summoner Spells
+![alt text](images/image-10.png)
