@@ -1,5 +1,7 @@
 <h1 align="center"> League Project </h1>
 
+<p align="center">Project based on the Riot Games API that retrieves data from the League of Legends game and transforms it into a website with information about the game.</p>
+
 ## Install
 1. Clone the repository
 ```
@@ -27,10 +29,22 @@ $ dotnet add package Microsoft.AspNet.Cors
 $ npm i
 ```
 
+## Run the project
+1. In League.Api folder:
+```
+$ dotnet watch run
+```
+
+2. In League.Web folder:
+```
+$ npm run dev
+```
+
 # API EndPoints
 You'll need a key to access the RIOT API. Go to https://developer.riotgames.com/apis and make your request.
 
 Then create a file like this:
+
 ![example](images/image.png)
 
 ## Summoner 
@@ -50,7 +64,6 @@ Then create a file like this:
 ## Matches
 * GET *match/latest/{riotId}-{tagLine}/*
 
-<br>
 
 # FrontEnd Pages 
 
