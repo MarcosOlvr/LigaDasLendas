@@ -29,7 +29,7 @@ $ dotnet add package Microsoft.AspNet.Cors
 $ npm i
 ```
 
-## Run the project
+## Run the app
 1. In League.Api folder:
 ```
 $ dotnet watch run
