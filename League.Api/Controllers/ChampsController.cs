@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using League.Api.Repositories.Contracts;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Caching.Memory;
+using League.Api.Models;
 
 namespace League.Api.Controllers
 {
@@ -10,10 +12,12 @@ namespace League.Api.Controllers
     public class ChampsController : ControllerBase
     {
         private readonly IChampRepository _champRepo;
+        private readonly IMemoryCache _memoryCache;
 
-        public ChampsController(IChampRepository champRepo)
+        public ChampsController(IChampRepository champRepo, IMemoryCache memoryCache)
         {
             _champRepo = champRepo;
+            _memoryCache = memoryCache;
         }
 
         [HttpGet("champ/{skip:int}/{take:int}")]
@@ -21,14 +25,19 @@ namespace League.Api.Controllers
         {
             try
             {
-                var allChamps = _champRepo.GetAllChamps();
+                if (!_memoryCache.TryGetValue("allChamps", out List<Champ> allChamps))
+                {
+                    allChamps = _champRepo.GetAllChamps();
+                    _memoryCache.Set("allChamps", allChamps, DateTimeOffset.UtcNow.AddHours(12));
+                }
 
                 var champs = allChamps.Skip(skip).Take(take);
 
                 var total = allChamps.Count();
 
-                return Ok(new {
-                    total, 
+                return Ok(new
+                {
+                    total,
                     data = champs
                 });
             }
@@ -44,10 +53,14 @@ namespace League.Api.Controllers
         {
             try
             {
-                var champ = _champRepo.GetChampById(id);
+                if (!_memoryCache.TryGetValue($"champ-{id}", out Champ champ))
+                {
+                    champ = _champRepo.GetChampById(id);
+                    _memoryCache.Set($"champ-{id}", champ, DateTimeOffset.UtcNow.AddHours(12));
 
-                if (champ == null)
-                    return NotFound();
+                    if (champ == null)
+                        return NotFound();
+                }
 
                 return Ok(champ);
             }
@@ -66,10 +79,14 @@ namespace League.Api.Controllers
         {
             try
             {
-                var champ = _champRepo.GetChampByName(champName);
+                if (!_memoryCache.TryGetValue($"champ-{champName}", out Champ champ))
+                {
+                    champ = _champRepo.GetChampByName(champName);
+                    _memoryCache.Set($"champ-{champName}", champ, DateTimeOffset.UtcNow.AddHours(12));
 
-                if (champ == null)
-                    return NotFound();
+                    if (champ == null)
+                        return NotFound();
+                }
 
                 return Ok(champ);
             }

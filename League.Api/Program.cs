@@ -22,6 +22,8 @@ builder.Services.AddScoped<IChampRepository, ChampRepository>();
 builder.Services.AddScoped<ISummonerRepository, SummonerRepository>();
 builder.Services.AddScoped<IMatchRepository, MatchRepository>();
 
+builder.Services.AddMemoryCache();
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();

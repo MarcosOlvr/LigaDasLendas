@@ -1,6 +1,8 @@
-﻿using League.Api.Repositories.Contracts;
+﻿using League.Api.Models;
+using League.Api.Repositories.Contracts;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace League.Api.Controllers
 {
@@ -10,10 +12,12 @@ namespace League.Api.Controllers
     public class MatchController : ControllerBase
     {
         private readonly IMatchRepository _matchRepo;
+        private readonly IMemoryCache _memoryCache;
 
-        public MatchController(IMatchRepository matchRepo)
+        public MatchController(IMatchRepository matchRepo, IMemoryCache memorycache)
         {
             _matchRepo = matchRepo;
+            _memoryCache = memorycache;
         }
 
         [HttpGet("match/latest/{riotId}-{tagLine}/")]
@@ -21,7 +25,11 @@ namespace League.Api.Controllers
         {
             try
             {
-                var lastMatches = _matchRepo.GetMatches(riotId, tagLine);
+                if (!_memoryCache.TryGetValue("matches", out List<Match> lastMatches))
+                {
+                    lastMatches = _matchRepo.GetMatches(riotId, tagLine);
+                    _memoryCache.Set("matches", lastMatches, DateTimeOffset.UtcNow.AddMinutes(5));
+                }
 
                 return Ok(lastMatches);
             }

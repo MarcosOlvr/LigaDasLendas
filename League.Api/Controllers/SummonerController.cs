@@ -1,6 +1,10 @@
-﻿using League.Api.Repositories.Contracts;
+﻿using League.Api.Models;
+using League.Api.Repositories.Contracts;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using RiotSharp.Endpoints.SummonerEndpoint;
+using System.Diagnostics;
 
 namespace League.Api.Controllers
 {
@@ -10,10 +14,12 @@ namespace League.Api.Controllers
     public class SummonerController : ControllerBase
     {
         private readonly ISummonerRepository _summonerRepo;
+        private readonly IMemoryCache _memorycache;
 
-        public SummonerController(ISummonerRepository summonerRepository)
+        public SummonerController(ISummonerRepository summonerRepository, IMemoryCache memoryCache)
         {
             _summonerRepo = summonerRepository;
+            _memorycache = memoryCache;
         }
 
         [HttpGet("summoner/{summonerName}-{tagLine}")]
@@ -21,7 +27,11 @@ namespace League.Api.Controllers
         {
             try
             {
-                var summoner = _summonerRepo.GetSummoner(summonerName, tagLine);
+                if (!_memorycache.TryGetValue($"summoner-{summonerName}-{tagLine}", out Camille.RiotGames.SummonerV4.Summoner summoner))
+                {
+                    summoner = _summonerRepo.GetSummoner(summonerName, tagLine);
+                    _memorycache.Set($"summoner-{summonerName}-{tagLine}", summoner, DateTimeOffset.UtcNow.AddHours(1));
+                }
 
                 return Ok(summoner);
             }
@@ -40,8 +50,12 @@ namespace League.Api.Controllers
         {
             try
             {
-                var masteries = _summonerRepo.GetChampMastery(summonerName, tagLine);
-
+                if (!_memorycache.TryGetValue($"masteries-{summonerName}-{tagLine}", out List<Masteries> masteries))
+                {
+                    masteries = _summonerRepo.GetChampMastery(summonerName, tagLine);
+                    _memorycache.Set($"masteries-{summonerName}-{tagLine}", masteries, DateTimeOffset.UtcNow.AddMinutes(10));
+                }
+                
                 return Ok(masteries);
             }
             catch(Exception ex)
@@ -59,7 +73,11 @@ namespace League.Api.Controllers
         {
             try
             {
-                var profileIconUrl = _summonerRepo.GetSummonerIcon(summonerName, tagLine);
+                if (!_memorycache.TryGetValue($"icon-{summonerName}-{tagLine}", out string? profileIconUrl))
+                {
+                    profileIconUrl = _summonerRepo.GetSummonerIcon(summonerName, tagLine);
+                    _memorycache.Set($"icon-{summonerName}-{tagLine}", profileIconUrl, DateTimeOffset.UtcNow.AddMinutes(5));
+                }
 
                 return Ok(profileIconUrl);
             }
@@ -78,8 +96,12 @@ namespace League.Api.Controllers
         {
             try
             {
-                var league = _summonerRepo.GetLeagueSummoner(summonerName, tagLine);
-
+                if (!_memorycache.TryGetValue($"league-{summonerName}-{tagLine}", out Camille.RiotGames.LeagueV4.LeagueEntry[] league))
+                {
+                    league = _summonerRepo.GetLeagueSummoner(summonerName, tagLine);
+                    _memorycache.Set($"league-{summonerName}-{tagLine}", league, DateTimeOffset.UtcNow.AddMinutes(10));
+                }
+                
                 return Ok(league);
             }
             catch(Exception ex)
@@ -97,7 +119,11 @@ namespace League.Api.Controllers
         {
             try
             {
-                var runes = _summonerRepo.GetAllRunes();
+                if (!_memorycache.TryGetValue("runes", out List<Rune> runes))
+                {
+                    runes = _summonerRepo.GetAllRunes();
+                    _memorycache.Set("runes", runes, DateTimeOffset.UtcNow.AddHours(12));
+                }
 
                 return Ok(runes);
             }
@@ -117,7 +143,11 @@ namespace League.Api.Controllers
         {
             try
             {
-                var rune = _summonerRepo.GetRuneByName(runeName);
+                if (!_memorycache.TryGetValue($"rune-{runeName}", out Rune rune))
+                {
+                    rune = _summonerRepo.GetRuneByName(runeName);
+                    _memorycache.Set($"rune-{runeName}", rune, DateTimeOffset.UtcNow.AddHours(12));
+                }
 
                 return Ok(rune);    
             }
@@ -137,7 +167,11 @@ namespace League.Api.Controllers
         {
             try
             {
-                var spells = _summonerRepo.GetAllSpells();
+                if (!_memorycache.TryGetValue("spells", out List<Spell> spells))
+                {
+                    spells = _summonerRepo.GetAllSpells();
+                    _memorycache.Set("spells", spells, DateTimeOffset.UtcNow.AddHours(12));
+                }
 
                 return Ok(spells);
             }
