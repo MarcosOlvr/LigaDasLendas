@@ -62,7 +62,7 @@ Then create a file like this:
 * GET *api/champ/champName*
 
 ## Matches
-* GET *match/latest/{riotId}-{tagLine}/*
+* GET *api/match/latest/{riotId}-{tagLine}/*
 
 
 # FrontEnd Pages 
