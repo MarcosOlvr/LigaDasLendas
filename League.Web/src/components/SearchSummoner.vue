@@ -65,7 +65,8 @@
                                 <div>
                                     <img class="shadow" :src="m.champion.squareImage" height="75">
                                     <h6 class="text-warning">{{ m.champion.name }}</h6>
-                                    <img :src="'https://raw.githubusercontent.com/InFinity54/LoL_DDragon/master/extras/masteries/mastery' + m.championLevel + '.png'" height="55">
+                                    <img v-if="m.championLevel <= 10" :src="'https://raw.githubusercontent.com/InFinity54/LoL_DDragon/master/extras/championmastery/levels/mastery-' + m.championLevel + '.png'" height="55">
+                                    <img v-else :src="'https://raw.githubusercontent.com/InFinity54/LoL_DDragon/master/extras/championmastery/levels/mastery-10.png'" height="55">
                                     <p>
                                         <span class="badge bg-info text-black">{{ m.championPoints }} pts</span> 
                                     </p>
